@@ -22,7 +22,7 @@
               <view class="weui-label">消费金额</view>
           </view>
           <view class="weui-cell__bd">
-              <input class="weui-input" type="digit" />
+              <input class="weui-input" type="digit" name="costMoney"/>
           </view>
           <view class="weui-cell__ft" style="margin-right: 16px;">
               元
@@ -34,7 +34,7 @@
                     <view class="weui-label">消费账单</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker bindchange="selectCostGroup" value="{{costGroup.groupName}}" range="{{costGroups}}" range-key="groupName">
+                    <picker bindchange="selectCostGroup" value="{{selectCostGroup.groupName}}" range="{{costGroups}}" range-key="groupName">
                         <view class="weui-select weui-select_in-select-after">{{costGroup.groupName}}</view>
                     </picker>
                 </view>
@@ -54,7 +54,7 @@
 
         <view class="weui-cell">
               <view class="weui-cell__bd">
-                  <textarea class="weui-textarea" placeholder="消费的详细项目" style="height: 3.3em" />
+                  <textarea class="weui-textarea" placeholder="消费的详细项目" style="height: 3.3em" name="comment"/>
                   <view class="weui-textarea-counter">0/200</view>
               </view>
           </view>

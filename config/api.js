@@ -9,5 +9,7 @@ module.exports = {
   DELETE_GROUP: rootUri + 'costGroup/',
   GET_GROUP_BY_CODE: rootUri + 'costGroup/byCode/',
   REMARK_NAME: rootUri + 'remarkName',
-  APPROVAL: rootUri +'approval'
+  APPROVAL: rootUri +'approval',
+  CATEGORY: rootUri +'category/list',
+  COSTGROUP: rootUri +'costGroup/listMine'
 }

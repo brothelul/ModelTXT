@@ -6,7 +6,7 @@ Page({
     showTopTip: false,
     errorMsg: "",
   },
-  onLoad: function(){
+  onLoad: function(options){
   },
   createNewGroup: function(e){
     this.setData({

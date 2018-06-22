@@ -98,7 +98,6 @@ Page({
     });
   },
   loginByButton: function (e) {
-    var that = this;
     return new Promise(function (resolve, reject) {
       wx.login({
         success: res => {
@@ -144,10 +143,9 @@ Page({
       itemList: itemList,
       success: (res) => {
         // 退出消费者警告
-        console.log(res)
         switch (res.tapIndex) {
           case 0:
-            wx.redirect('pages/group/group');
+            wx.redirectTo('/pages/group/group?groupId='+groupId);
             break;
           case 1:
             wx.showModal({
@@ -156,7 +154,16 @@ Page({
               confirmText: "确定",
               cancelText: "取消",
               success: function (res) {
-                console.log('确认退出');
+                if (res.confirm){
+                  const url = api.ROOT_URI+'costGroup/'+groupId+'/leave';
+                  util.request(url, {}, 'DELETE').then(function () {
+                    // 从当前数据中删除改组
+                    var newCostGroups = that.data.costGroups.filter(item => item.costGroup.groupNo != groupId);
+                    that.setData({
+                      costGroups: newCostGroups
+                    });
+                  });
+                }
               }
             });
             break
@@ -210,21 +217,4 @@ Page({
       }
     })
   },
-  // 退出消费者警告
-  openExistComfirm: () => {
-    wx.showModal({
-      title: '',
-      content: '确定要退出该消费分组？',
-      confirmText: "取消",
-      cancelText: "确定",
-      success: function (res) {
-        console.log(res);
-        if (res.confirm) {
-          console.log('用户点击主操作')
-        } else {
-          console.log('用户点击辅助操作')
-        }
-      }
-    });
-  }
 })

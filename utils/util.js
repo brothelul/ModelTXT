@@ -1,21 +1,15 @@
 var api = require('../config/api.js');
 
 function formatTime(date) {
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
-
-  var hour = date.getHours()
-  var minute = date.getMinutes()
-  var second = date.getSeconds()
-
-
-  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  return [year, month, day].map(formatNumber).join('-');
 }
 
 function formatNumber(n) {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+  n = n.toString();
+  return n[1] ? n : '0' + n;
 }
 
 /**
@@ -132,11 +126,19 @@ function showErrorToast(msg) {
   })
 }
 
+function showSuccessToast(msg) {
+  wx.showToast({
+    title: msg,
+    icon: 'success'
+  })
+}
+
 module.exports = {
   formatTime,
   request,
   redirect,
   showErrorToast,
+  showSuccessToast,
   checkSession,
   login,
 }
