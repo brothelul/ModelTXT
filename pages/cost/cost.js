@@ -34,15 +34,18 @@ Page({
     var that = this;
     util.request(api.COSTGROUP).then(function(res){
       var costGroups = res.data;
+      console.log(res)
       // 如果有group则初始化
+      var costGroup;
       if (groupId){
-        var costGroup = costGroups.filter(item => item.groupId == groupId)[0];
-        this.setData({
-          selectCostGroup: costGroup
-        });
+        costGroup = costGroups.filter(item => item.groupId == groupId)[0];
+      } else{
+        costGroup = costGroups[0];
       }
+      console.log(res)
       that.setData({
-        costGroups: costGroups
+        costGroups: costGroups,
+        selectCostGroup: costGroup
       });
     });
   },
@@ -52,11 +55,13 @@ Page({
     })
   },
   selectCostGroup: function(e){
+    console.log(e)
     this.setData({
       selectCostGroup: this.data.costGroups[e.detail.value]
     });
   },
   selectCategory: function(e){
+    console.log(e)
     this.setData({
       selectCategory: e.currentTarget.id
     });
@@ -69,9 +74,9 @@ Page({
       cateId: this.data.selectCategory,
       costDate: this.data.costDate,
       costDesc: comment,
-      costMoney: costMoney
+      costMoney: parseFloat(costMoney)
     };
-    util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupId, body, 'PUT').then(function(){
+    util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupNo, body, 'PUT').then(function(){
       util.showSuccessToast('创建消费记录成功');
       wx.redirectTo({
         url:'/pages/index/index'

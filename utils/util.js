@@ -58,7 +58,7 @@ function request(url, data = {}, method ='GET') {
         wx.showToast({
           title: err.errMsg,
           icon: 'none',
-          duration: 2000
+          duration: 3000
         });
         console.log("failed request", err);
       }

@@ -31,17 +31,16 @@
   height: 100rpx;
 }
 .header-content-cell{
-  width: 33%;
+  width: 49%;
   display: inline-block;
   text-align: center;
   line-height: 1.4;
 }
 .header-content-cell-center{
-  width: 33%;
+  width: 49%;
   display: inline-block;
   text-align: center;
   border-left: 1px solid #F8F8F8;
-  border-right: 1px solid #F8F8F8;
   line-height: 1.4;
 }
 .header-content-cell-money{

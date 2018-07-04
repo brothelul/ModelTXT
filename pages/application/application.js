@@ -26,7 +26,6 @@ Page({
       var approvalUsers = res.data.map(item => {
         return { ...item, loading: false };
       });
-      console.log("approvalUsers", approvalUsers);
       that.setData({
         approvalUsers: approvalUsers
       });

@@ -6,14 +6,14 @@
             <view class="weui-loadmore__tips weui-loadmore__tips_in-line">消费用途</view>
         </view>
         <view class="cost-grids">
-          <block wx:for="{{costCategory}}" wx:key="id">
-            <navigator class="cost-grid-select" wx:if="{{item.id == selectCategory}}" id="{{item.id}}" bindtap="selectCategory">
-              <view class="iconfont {{item.icon}}"></view>
-              <view class="cost-grid-title">{{item.name}}</view>
+          <block wx:for="{{costCategories}}" wx:key="catId">
+            <navigator class="cost-grid-select" wx:if="{{item.cateId == selectCategory}}" id="{{item.cateId}}" bindtap="selectCategory">
+              <view class="iconfont {{item.cateIcon}}"></view>
+              <view class="cost-grid-title">{{item.cateName}}</view>
             </navigator>
-            <navigator class="cost-grid" id="{{item.id}}" bindtap="selectCategory" wx:else>
-              <view class="iconfont {{item.icon}}"></view>
-              <view class="cost-grid-title">{{item.name}}</view>
+            <navigator class="cost-grid" id="{{item.cateId}}" bindtap="selectCategory" wx:else>
+              <view class="iconfont {{item.cateIcon}}"></view>
+              <view class="cost-grid-title">{{item.cateName}}</view>
             </navigator>
           </block>
         </view>
@@ -34,8 +34,8 @@
                     <view class="weui-label">消费账单</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <picker bindchange="selectCostGroup" value="{{selectCostGroup.groupName}}" range="{{costGroups}}" range-key="groupName">
-                        <view class="weui-select weui-select_in-select-after">{{costGroup.groupName}}</view>
+                    <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName">
+                        <view class="weui-select weui-select_in-select-after">{{selectCostGroup.groupName}}</view>
                     </picker>
                 </view>
         </view>

@@ -21,12 +21,6 @@
           <view wx:else>付<text class="header-content-cell-money" style="margin-left:4px; color:#576b95;">{{userInfo.leftCost}}</text>元</view>
           <view>结算应</view>
         </view>
-        <view class="header-content-cell">
-          <navigator>
-              <view class="header-content-cell-money">15</view>
-              <view>通知</view>
-          </navigator>
-        </view>
       </view>
   </view>
   <!-- 用户消费组信息概括 -->
@@ -60,7 +54,11 @@
               <view><text style="font-size: 18px;margin-right: 4px;color: #576b95;">{{item.totalCost}}</text>元</view>
               <view>累计消费</view>
             </view>
-            <view class="user-cost-money">
+            <view class="user-cost-money" wx:if="{{item.leftCost <= 0}}">
+              <view>收<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #1AAD19;">{{-item.leftCost}}</text>元</view>
+              <view>结算应</view>
+            </view>
+            <view class="user-cost-money" wx:else>
               <view>付<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #e64340;">{{item.leftCost}}</text>元</view>
               <view>结算应</view>
             </view>
@@ -83,7 +81,7 @@
         <view class="user-cost-footer-cell-center">
           <navigator url="/pages/application/application?groupId={{costGroup.costGroup.groupNo}}&myRole={{costGroup.myRole}}">
               <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;">
-              <text style='font-size: 10px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{costGroup.notApproveCount>0}}">{{costGroup.notApproveCount}}</text>
+              <text style='font-size: 6px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{costGroup.notApproveCount>0}}">{{costGroup.notApproveCount}}</text>
               </text>
               <view>加入申请</view>
                                   
