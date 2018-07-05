@@ -76,7 +76,7 @@ Page({
       costDesc: comment,
       costMoney: parseFloat(costMoney)
     };
-    util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupNo, body, 'PUT').then(function(){
+    util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupNo, body, 'POST').then(function(){
       util.showSuccessToast('创建消费记录成功');
       wx.redirectTo({
         url:'/pages/index/index'

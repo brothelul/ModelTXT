@@ -27,7 +27,7 @@ Page({
       }, 3000);
       return;
     }
-    util.request(api.CREATE_GROUP, groupName, 'PUT').then(function(){
+    util.request(api.CREATE_GROUP, groupName, 'POST').then(function(){
       wx.showToast({
         title: '创建账单成功',
       });

@@ -44,7 +44,7 @@ Page({
       return;
     }
     const body = {comment: comment,groupCode: this.data.groupCode};
-    util.request(api.APPROVAL, body, 'PUT').then(function(res){
+    util.request(api.APPROVAL, body, 'POST').then(function(res){
       wx.showToast({
         title: '申请已提交，等待管理员审核',
         icon: 'success'
