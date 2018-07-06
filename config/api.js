@@ -7,9 +7,11 @@ module.exports = {
   MYGROUPS_OVERVIEW: rootUri + 'costGroup/mine/overview',
   CREATE_GROUP: rootUri + 'costGroup',
   DELETE_GROUP: rootUri + 'costGroup/',
+  UPDATE_GROUP: rootUri + 'costGroup/',
   GET_GROUP_BY_CODE: rootUri + 'costGroup/byCode/',
   REMARK_NAME: rootUri + 'remarkName',
   APPROVAL: rootUri +'approval',
   CATEGORY: rootUri +'category/list',
-  COSTGROUP: rootUri +'costGroup/listMine'
+  COSTGROUP: rootUri +'costGroup/listMine',
+  COSTGROUP_BY_ID: rootUri+'costGroup/'
 }

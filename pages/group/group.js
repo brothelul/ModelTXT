@@ -5,10 +5,24 @@ Page({
     loading: false,
     showTopTip: false,
     errorMsg: "",
+    groupId: null,
+    action: 'new'
   },
   onLoad: function(options){
+    const groupId = options.groupId;
+    this.initCostGroup(groupId);
   },
-  createNewGroup: function(e){
+  // 如果传入groupId那么会判断是否需要进行更新操作
+  initCostGroup: function(groupId){
+    var that = this;
+    util.request(api.COSTGROUP_BY_ID+groupId).then(function(){
+      that.setData({
+        groupId: groupId,
+        action: 'update'
+      });
+    });
+  },
+  newOrUpdateGroup: function(e){
     this.setData({
       loading: true
     });
@@ -27,9 +41,12 @@ Page({
       }, 3000);
       return;
     }
-    util.request(api.CREATE_GROUP, groupName, 'POST').then(function(){
+    const action = this.data.action;
+    var url = action == 'new' ? api.CREATE_GROUP : api.UPDATE_GROUP+this.data.groupId;
+    var successMsg = action == 'new' ? '创建账单成功':'修改账单成功';
+    util.request(url, groupName, 'POST').then(function(){
       wx.showToast({
-        title: '创建账单成功',
+        title: successMsg,
       });
       wx.redirectTo({
         url: '/pages/index/index',
