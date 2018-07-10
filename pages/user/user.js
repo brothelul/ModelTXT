@@ -54,8 +54,8 @@ Page({
               title: '删除成功',
               icon: 'success'
             })
-            wx.redirectTo({
-              url: "/pages/index/index",
+            wx.reLaunch({
+              url: "/pages/index/index?type=1",
             });
           });
         }

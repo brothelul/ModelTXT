@@ -78,8 +78,8 @@ Page({
     };
     util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupNo, body, 'POST').then(function(){
       util.showSuccessToast('创建消费记录成功');
-      wx.redirectTo({
-        url:'/pages/index/index'
+      wx.reLaunch({
+        url: '/pages/index/index?type=1'
       })
     });
   }

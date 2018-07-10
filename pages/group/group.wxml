@@ -4,7 +4,7 @@
     <view class="group">
       <view class="group-input">
         <view class="group-input-label">账单名称</view>
-        <input name="groupName" placeholder="输入名称长多不超过20" maxlength='20'></input>
+        <input name="groupName" placeholder="账单长度不超过20" maxlength='20' value="{{groupName}}"></input>
       </view>
       <view class="group-button">
         <button form-type="submit" type="primary" loading="{{loading}}">提交</button>

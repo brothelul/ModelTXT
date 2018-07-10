@@ -1,10 +1,9 @@
 <view style="margin-top: 8px;">
- <view wx:if="{{details.length == 0}}" class="no-data">
+ <view wx:if="{{costCleans.length == 0}}" class="no-data">
   <view>暂无数据</view>
  </view>
- <scroll-view bindscrolltolower="loadingMore" wx:else>
-   <block wx:for="{{details}}" wx:for-item="detail">
-    <navigator bindlongtap="openDeleleComfirm" id="{{detail.costId}}">
+ <view wx:else>
+   <block wx:for="{{costCleans}}" wx:for-item="detail">
       <view class="application-cell">
         <view class="application-cell-header">
           <image src="{{detail.user.avatarUrl}}"></image>
@@ -14,10 +13,9 @@
           <view class="application-cell-header-comment">花费时间：{{detail.costDate}}</view>
         </view>
         <view class="application-cell-header-comment">
-          <view style="color:#222;"><text class="iconfont {{detail.costCategory.cateIcon}}"></text><text style="margin-right:16px">{{detail.costCategory.cateName}}</text><text style="font-size:18px;">{{detail.costMoney}}</text>￥</view>
+          付{{detail.costMoney}}元
         </view>
       </view>
-    </navigator>
    </block>
- </scroll-view>
+ </view>
  </view>

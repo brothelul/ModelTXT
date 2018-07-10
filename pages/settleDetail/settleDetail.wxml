@@ -1,0 +1,19 @@
+<view>
+  <view style="margin:8px 8px;">
+    <canvas canvas-id="pieCanvas" class="canvas" style="width:100%;height:290px;margin-bottom: 8px;background-color: #fff;"></canvas>
+    <canvas canvas-id="columnCanvas" class="canvas" style="width:100%;height:220px;margin-bottom: 8px;background-color: #fff;"></canvas>
+  </view>
+  <view class="weui-cells weui-cells_after-title" style="margin:8px 8px;">
+     <view class="weui-cell">
+              <view class="weui-cell__bd">
+                  <textarea class="weui-textarea" placeholder="结算备注信息" style="height: 3.3em" name="comment"/>
+                  <view class="weui-textarea-counter">0/200</view>
+              </view>
+      </view>
+      </view>
+      <view>
+      <view class="group-button" style="margin:8px 8px;">
+        <button form-type="submit" type="primary" loading="{{loading}}">结算</button>
+      </view>
+  </view>
+</view>

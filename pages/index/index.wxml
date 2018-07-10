@@ -23,6 +23,7 @@
         </view>
       </view>
   </view>
+
   <!-- 用户消费组信息概括 -->
   <view wx:if="{{costGroups.length == 0}}" class="no-data">
     <view>暂无数据</view>
@@ -73,9 +74,9 @@
       <!-- 尾部 -->
       <view class="user-cost-footer">
         <view class="user-cost-footer-cell">
-          <navigator>
+          <navigator url="/pages/detail/detail?groupId={{costGroup.costGroup.groupNo}}">
             <view class="iconfont icon-xiangqing:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
-            <view>消息详情</view>
+            <view>消费详情</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell-center">

@@ -6,7 +6,10 @@
     "pages/group/group",
     "pages/cost/cost",
     "pages/feedback/feedback",
-    "pages/approval/approval"
+    "pages/approval/approval",
+    "pages/detail/detail",
+    "pages/settlement/settlement",
+    "pages/settleDetail/settleDetail"
   ],
   "window": {
     "backgroundTextStyle": "dark",

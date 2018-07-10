@@ -7,11 +7,11 @@
         </view>
         <view class="cost-grids">
           <block wx:for="{{costCategories}}" wx:key="catId">
-            <navigator class="cost-grid-select" wx:if="{{item.cateId == selectCategory}}" id="{{item.cateId}}" bindtap="selectCategory">
+            <navigator class="cost-grid-select" wx:if="{{item.cateId == selectCategory}}" id="{{item.cateId}}" bindtap="selectCategory" url=''>
               <view class="iconfont {{item.cateIcon}}"></view>
               <view class="cost-grid-title">{{item.cateName}}</view>
             </navigator>
-            <navigator class="cost-grid" id="{{item.cateId}}" bindtap="selectCategory" wx:else>
+            <navigator class="cost-grid" id="{{item.cateId}}" bindtap="selectCategory" wx:else url=''>
               <view class="iconfont {{item.cateIcon}}"></view>
               <view class="cost-grid-title">{{item.cateName}}</view>
             </navigator>

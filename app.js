@@ -4,6 +4,8 @@ App({
   onLaunch: function () {
   },
   globalData: {
+    userInfo: { leftCost: 0, totalCost: 0, avatarUrl: '../../img/default.png' },
+    hasUserInfo: false,
   },
   // 用户登录，全局应该只登录一次
   login: function(){

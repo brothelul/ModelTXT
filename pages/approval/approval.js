@@ -1,6 +1,6 @@
 const api = require('../../config/api.js');
 const util = require('../../utils/util.js');
-
+const app = getApp();
 Page({
   data: {
     showTopTip: false,
@@ -9,23 +9,32 @@ Page({
     costGroup: null
   },
   onLoad: function (options) {
-    const groupCode = options.groupCode;
-    const cookie = wx.getStorageSync('cookie');
-    this.setData({
-      groupCode: groupCode
-    });
     var that = this;
-    // 获取账单
-    util.request(api.GET_GROUP_BY_CODE + groupCode).then(function(res){
-      if (res.data == null && res.status == 200) {
-        wx.redirectTo({
-          url: '/pages/index/index',
+    app.login().then(function(){
+      const groupCode = options.groupCode;
+      const cookie = wx.getStorageSync('cookie');
+      that.setData({
+        groupCode: groupCode
+      });
+      // 获取账单
+      util.request(api.GET_GROUP_BY_CODE + groupCode).then(function (res) {
+        if (res.data == null && res.status == 200) {
+          wx.reLaunch({
+            url: '/pages/index/index?type=1',
+          })
+        } else {
+          that.setData({
+            costGroup: res.data
+          });
+        }
+      }, function (err) {
+        console.log(err);
+        wx.hideLoading();
+        wx.showToast({
+          title: err.errMsg,
+          icon: 'none',
         })
-      } else{
-        that.setData({
-          costGroup: res.data
-        });
-      }
+      });
     });
   },
   requestJoin: function(e){

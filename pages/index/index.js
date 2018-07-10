@@ -8,32 +8,43 @@ const util = require('../../utils/util.js');
 
 Page({
   data: {
-    userInfo: { leftCost: 0, totalCost: 0, avatarUrl: '../../img/default.png'},
-    hasUserInfo: false,
+    userInfo: app.globalData.userInfo,
+    hasUserInfo: app.globalData.hasUserInfo,
     costGroups: [],
   },
-  onLoad: function () {
-    wx.showLoading({
-      title: '登录中',
-    });
-    var that = this;
-    app.login(this.data.hasUserInfo).then(function () {
-      that.initUserInfo();
-      that.initGroupInfo();
+  onLoad: function (options) {
+    if (options.type){
+      wx.showLoading({
+        title: '加载中',
+      });
+      this.initUserInfo();
+      this.initGroupInfo();
       wx.hideLoading();
-    }, function (err) {
-      console.log(err);
-      wx.hideLoading();
-      wx.showToast({
-        title: err.errMsg,
-        icon: 'none',
-      })
-    });
+    } else{
+      wx.showLoading({
+        title: '登录中',
+      });
+      var that = this;
+      app.login().then(function () {
+        that.initUserInfo();
+        that.initGroupInfo();
+        wx.hideLoading();
+      }, function (err) {
+        console.log(err);
+        wx.hideLoading();
+        wx.showToast({
+          title: err.errMsg,
+          icon: 'none',
+        })
+      });
+    }
   },
   // 初始化用户基本信息
   initUserInfo: function () {
     var that = this;
     util.request(api.CURRENT_USER).then(function (res) {
+      app.globalData.userInfo =res.data;
+      app.globalData.hasUserInfo = true;
       that.setData({
         userInfo: res.data,
         hasUserInfo: true,
@@ -71,7 +82,7 @@ Page({
       }
     } else {
       return {
-        title: userName + '邀请你加入AAB制',
+        title: userName + '邀请你使用AAB制，让你的生活更便捷',
         path: 'pages/index/index'
       }
     }
@@ -135,7 +146,7 @@ Page({
     const groupId = e.currentTarget.id;
     var selectGroup = this.data.costGroups.filter(item => item.costGroup.groupNo == groupId)[0];
     var that = this;
-    var itemList = ['设置', '退出'];
+    var itemList = ['设置', '退出', "历史结算"];
     if (selectGroup.myRole == 'admin') {
       itemList = itemList.concat(['删除', '结算']);
     }
@@ -145,7 +156,9 @@ Page({
         // 退出消费者警告
         switch (res.tapIndex) {
           case 0:
-            wx.redirectTo('/pages/group/group?groupId='+groupId);
+            wx.navigateTo({
+              url: '/pages/group/group?groupId=' + groupId,
+            })
             break;
           case 1:
             wx.showModal({
@@ -168,6 +181,11 @@ Page({
             });
             break
           case 2:
+            wx.navigateTo({
+              url: '/pages/settlement/settlement?groupId='+groupId,
+            })
+            break;
+          case 3:
             wx.showModal({
               title: '温馨提示',
               content: '确定要删除该账单吗？',
@@ -186,8 +204,10 @@ Page({
               }
             });
             break;
-          case 3:
-            console.log('结算');
+          case 4:
+            wx.navigateTo({
+              url: '/pages/settleDetail/settleDetail?groupId='+groupId,
+            })
             break;
           default:
             break;
@@ -198,6 +218,7 @@ Page({
   },
   // 打开添加按钮
   openAdd: () => {
+    var that = this;
     wx.showActionSheet({
       itemList: ['添加消费记录', '创建新的账单', "报一个BUG"],
       success: (res) => {
@@ -211,7 +232,7 @@ Page({
           })
         } else if (res.tapIndex == 2) {
           wx.navigateTo({
-            url: '/pages/feedback/feedback',
+            url: '/pages/feedback/feedback?groupId=9',
           })
         }
       }

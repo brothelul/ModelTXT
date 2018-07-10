@@ -6,18 +6,22 @@ Page({
     showTopTip: false,
     errorMsg: "",
     groupId: null,
+    groupName: null,
     action: 'new'
   },
   onLoad: function(options){
     const groupId = options.groupId;
-    this.initCostGroup(groupId);
+    if (groupId){
+      this.initCostGroup(groupId);
+    }
   },
   // 如果传入groupId那么会判断是否需要进行更新操作
   initCostGroup: function(groupId){
     var that = this;
-    util.request(api.COSTGROUP_BY_ID+groupId).then(function(){
+    util.request(api.COSTGROUP_BY_ID+groupId).then(function(res){
       that.setData({
         groupId: groupId,
+        groupName: res.data.groupName,
         action: 'update'
       });
     });
@@ -48,8 +52,8 @@ Page({
       wx.showToast({
         title: successMsg,
       });
-      wx.redirectTo({
-        url: '/pages/index/index',
+      wx.reLaunch({
+        url: '/pages/index/index?type=1',
       })
     });
   }
