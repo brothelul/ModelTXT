@@ -1,5 +1,5 @@
 <view style="margin-top: 8px;">
- <view wx:if="{{details.length == 0}}" class="no-data">
+ <view wx:if="{{details == null || details.length == 0}}" class="no-data">
   <view>暂无数据</view>
  </view>
  <scroll-view bindscrolltolower="loadingMore" wx:else>

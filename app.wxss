@@ -22,5 +22,4 @@ page{
   word-wrap:break-word;
   word-break:break-all;
   background-color:#e64340;
-
 }

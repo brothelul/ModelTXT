@@ -1,4 +1,5 @@
 const rootUri = 'https://www.modutxt.xin/public/api/';
+// const rootUri = 'https://192.168.31.213/public/api/';
 module.exports = {
   ROOT_URI: rootUri,
   LOGIN: rootUri + 'login',
@@ -13,5 +14,8 @@ module.exports = {
   APPROVAL: rootUri +'approval',
   CATEGORY: rootUri +'category/list',
   COSTGROUP: rootUri +'costGroup/listMine',
-  COSTGROUP_BY_ID: rootUri+'costGroup/'
+  COSTGROUP_BY_ID: rootUri+'costGroup/',
+  DELETE_DETAIL: rootUri + 'costDetail/detail/',
+  CLEAN_HISTORY: rootUri + 'costClean/costGroup/',
+  UNCLEAN_DETAIL: rootUri +'costClean/unClean/costGroup/'
 }

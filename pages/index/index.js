@@ -13,7 +13,8 @@ Page({
     costGroups: [],
   },
   onLoad: function (options) {
-    if (options.type){
+    console.log(options)
+    if (options.from){
       wx.showLoading({
         title: '加载中',
       });
@@ -77,7 +78,7 @@ Page({
       const userName = this.data.userInfo.nickName;
       const costGroups = this.data.costGroups.filter(item => item.costGroup.groupCode == groupCode);
       return {
-        title: userName + '邀请你加入' + costGroups[0].costGroup.groupName,
+        title: userName + '邀请你加入账单' + costGroups[0].costGroup.groupName,
         path: 'pages/approval/approval?groupCode=' + groupCode
       }
     } else {
@@ -146,20 +147,22 @@ Page({
     const groupId = e.currentTarget.id;
     var selectGroup = this.data.costGroups.filter(item => item.costGroup.groupNo == groupId)[0];
     var that = this;
-    var itemList = ['设置', '退出', "历史结算"];
+    var itemList = ['设置', '退出', '结算', "结算记录"];
     if (selectGroup.myRole == 'admin') {
-      itemList = itemList.concat(['删除', '结算']);
+      itemList = itemList.concat(['删除']);
     }
     wx.showActionSheet({
       itemList: itemList,
       success: (res) => {
         // 退出消费者警告
         switch (res.tapIndex) {
+          // 修改账单设置页面
           case 0:
             wx.navigateTo({
               url: '/pages/group/group?groupId=' + groupId,
             })
             break;
+          // 退出账单操作
           case 1:
             wx.showModal({
               title: '温馨提示',
@@ -180,12 +183,20 @@ Page({
               }
             });
             break
+          // 结算页面
           case 2:
+            wx.navigateTo({
+              url: '/pages/settleDetail/settleDetail?groupId=' + groupId+"&type=view",
+            })
+            break;
+          // 历史结算页面
+          case 3:
             wx.navigateTo({
               url: '/pages/settlement/settlement?groupId='+groupId,
             })
             break;
-          case 3:
+          // 删除账单页面
+          case 4:
             wx.showModal({
               title: '温馨提示',
               content: '确定要删除该账单吗？',
@@ -203,11 +214,6 @@ Page({
                 }
               }
             });
-            break;
-          case 4:
-            wx.navigateTo({
-              url: '/pages/settleDetail/settleDetail?groupId='+groupId,
-            })
             break;
           default:
             break;

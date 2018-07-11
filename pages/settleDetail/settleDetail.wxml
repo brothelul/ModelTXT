@@ -1,19 +1,46 @@
-<view>
+<view wx:if="{{cleanDetail == null}}" class="no-data">
+  <view>暂无数据</view>
+</view>
+<view wx:else>
   <view style="margin:8px 8px;">
-    <canvas canvas-id="pieCanvas" class="canvas" style="width:100%;height:290px;margin-bottom: 8px;background-color: #fff;"></canvas>
+    <canvas canvas-id="pieCanvas" class="canvas" style="width:100%;height:290px;margin-bottom: 8px;background-color: #fff;" wx:if="{{showPie}}"></canvas>
     <canvas canvas-id="columnCanvas" class="canvas" style="width:100%;height:220px;margin-bottom: 8px;background-color: #fff;"></canvas>
   </view>
-  <view class="weui-cells weui-cells_after-title" style="margin:8px 8px;">
-     <view class="weui-cell">
-              <view class="weui-cell__bd">
-                  <textarea class="weui-textarea" placeholder="结算备注信息" style="height: 3.3em" name="comment"/>
-                  <view class="weui-textarea-counter">0/200</view>
-              </view>
-      </view>
-      </view>
-      <view>
-      <view class="group-button" style="margin:8px 8px;">
-        <button form-type="submit" type="primary" loading="{{loading}}">结算</button>
+  <view class="top-tip" wx:if="{{showTopTip}}">{{errorMsg}}</view>
+  <view class="weui-cells weui-cells_after-title" style="margin:8px 8px;background-color:#F8F8F8" wx:if="{{cleanId == null}}">
+     <form bindsubmit="settleDetail">
+        <view class="weui-cell" style="background-color:#FFF">
+            <view class="weui-cell__bd">
+              <textarea class="weui-textarea" placeholder="结算备注信息" style="height: 3.0em" name="comment"/>
+              <view class="weui-textarea-counter">0/200</view>
+            </view>
+        </view>
+        <view style="background-color: #F8F8F8;">
+          <view class="group-button" style="margin:8px 8px;">
+            <button form-type="submit" type="primary" loading="{{loading}}">结算</button>
+          </view>
+        </view>
+     </form>
+  </view>
+  <view style="margin:8px 8px;background-color: #fff;" wx:else>
+      <view class="user-cost-footer">
+        <view class="user-cost-footer-cell">
+          <navigator url="/pages/detail/detail?groupId={{groupId}}&cleanId={{cleanId}}">
+            <view class="iconfont icon-xiangqing:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
+            <view>消费详情</view>
+          </navigator>
+        </view>
+        <view class="user-cost-footer-cell-center">
+          <navigator url="/pages/index/index?from=share" open-type="reLaunch">
+              <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;"></text>
+              <view>首页</view>                     
+          </navigator>
+        </view>
+        <view class="user-cost-footer-cell">
+            <button size="mini" style="background-color: #fff;" open-type="share">
+              <view class="iconfont icon-share-square-o:before" style="font-size: 20px;"></view>
+            </button>
+        </view>
       </view>
   </view>
 </view>

@@ -3,19 +3,24 @@
   <view>暂无数据</view>
  </view>
  <view wx:else>
-   <block wx:for="{{costCleans}}" wx:for-item="detail">
+   <block wx:for="{{costCleans}}" wx:for-item="clean">
+    <navigator url="/pages/settleDetail/settleDetail?groupId={{clean.costGroupBo.groupNo}}&cleanId={{clean.cleanId}}">
+      <view style="margin:8px 8px;">
+        <canvas canvas-id="lineCanvas" class="canvas" style="width:100%;height:220px;margin-bottom: 8px;background-color: #fff;"></canvas>
+      </view>
       <view class="application-cell">
         <view class="application-cell-header">
-          <image src="{{detail.user.avatarUrl}}"></image>
+          <image src="{{clean.user.avatarUrl}}"></image>
         </view>
         <view class="application-cell-body">
-          <view>{{detail.user.remarkName}}</view>
-          <view class="application-cell-header-comment">花费时间：{{detail.costDate}}</view>
+          <view>{{clean.user.remarkName}}</view>
+          <view class="application-cell-header-comment">结算时间：{{clean.cleanDate}}</view>
         </view>
-        <view class="application-cell-header-comment">
-          付{{detail.costMoney}}元
+        <view class="application-cell-header-comment" style="width: 35%;">
+          备注：{{clean.comment}}
         </view>
       </view>
+    </navigator>
    </block>
  </view>
  </view>

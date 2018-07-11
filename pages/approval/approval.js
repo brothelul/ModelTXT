@@ -20,7 +20,7 @@ Page({
       util.request(api.GET_GROUP_BY_CODE + groupCode).then(function (res) {
         if (res.data == null && res.status == 200) {
           wx.reLaunch({
-            url: '/pages/index/index?type=1',
+            url: '/pages/index/index?from=share',
           })
         } else {
           that.setData({

@@ -53,7 +53,7 @@ Page({
         title: successMsg,
       });
       wx.reLaunch({
-        url: '/pages/index/index?type=1',
+        url: '/pages/index/index?from=share',
       })
     });
   }

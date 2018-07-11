@@ -42,9 +42,11 @@
         <block wx:for="{{costGroup.costUsers}}" wx:key="userId">
         <view class="user-cost-content">
           <view class="user-cost-content-cell">
-            <view style="width: 85rpx;">
-              <image class="user-cost-content-cell-img" src="{{item.avatarUrl}}"></image>
-            </view>
+           <navigator url="/pages/detail/detail?groupId={{costGroup.costGroup.groupNo}}&userId={{item.userId}}">
+              <view style="width: 85rpx;">
+                <image class="user-cost-content-cell-img" src="{{item.avatarUrl}}"></image>
+              </view>           
+            </navigator>
             <view class="user-cost-content-cell-info">
               <view>{{item.remarkName}}</view>
               <view style="margin-top: 4px; font-size: 10px;" wx:if="{{item.admin == 'Y'}}">
