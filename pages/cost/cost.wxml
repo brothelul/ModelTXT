@@ -7,7 +7,7 @@
         </view>
         <view class="cost-grids">
           <block wx:for="{{costCategories}}" wx:key="catId">
-            <navigator class="cost-grid-select" wx:if="{{item.cateId == selectCategory}}" id="{{item.cateId}}" bindtap="selectCategory" url=''>
+            <navigator class="cost-grid-select" wx:if="{{item.cateId == selectCategory}}" id="{{item.cateId}}" bindtap="selectCategory">
               <view class="iconfont {{item.cateIcon}}"></view>
               <view class="cost-grid-title">{{item.cateName}}</view>
             </navigator>
@@ -28,7 +28,6 @@
               元
           </view>
         </view>
-
         <view class="weui-cell weui-cell_select">
                 <view class="weui-cell__hd weui-cell__hd_in-select-after">
                     <view class="weui-label">消费账单</view>
@@ -50,8 +49,6 @@
                     </picker>
                 </view>
         </view>
-
-
         <view class="weui-cell">
               <view class="weui-cell__bd">
                   <textarea class="weui-textarea" placeholder="消费的详细项目" style="height: 3.3em" name="comment"/>

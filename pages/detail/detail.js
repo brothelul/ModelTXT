@@ -82,5 +82,19 @@ Page({
           }
         }
       })
-    }
+    },
+  // 展示账单的备注信息
+  showDetailComment: function(e){
+    const detailId = e.currentTarget.id;
+    const details = this.data.details;
+    const costDetail = details.filter(item => item.costId == detailId)[0];
+    var comment = costDetail.costDesc;
+    comment = comment.length > 0 ? comment : "没有备注信息哦";
+    wx.showModal({
+      title: '消费记录备注',
+      content: comment,
+      showCancel: false,
+      confirmText: "关闭"
+    })
+  }
 })

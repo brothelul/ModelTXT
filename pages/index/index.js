@@ -11,6 +11,8 @@ Page({
     userInfo: app.globalData.userInfo,
     hasUserInfo: app.globalData.hasUserInfo,
     costGroups: [],
+    groupDetail: null,
+    selectCostGroup: wx.getStorageSync("selectCostGroup")
   },
   onLoad: function (options) {
     console.log(options)
@@ -31,7 +33,6 @@ Page({
         that.initGroupInfo();
         wx.hideLoading();
       }, function (err) {
-        console.log(err);
         wx.hideLoading();
         wx.showToast({
           title: err.errMsg,
@@ -52,12 +53,38 @@ Page({
       })
     });
   },
-  // 初始化账单信息
+  // 初始化所有账单
   initGroupInfo: function () {
     var that = this;
-    util.request(api.MYGROUPS_OVERVIEW).then(function (res) {
+    util.request(api.COSTGROUP).then(function (res) {
+      const costGroups = res.data;
       that.setData({
-        costGroups: res.data
+        costGroups: costGroups
+      });
+      if (costGroups.length > 0){
+        // 判断是否存在默认的组
+        var selectCostGroup = that.data.selectCostGroup;
+        selectCostGroup = selectCostGroup ? selectCostGroup : {};
+        const temp = costGroups.filter(item => item.groupNo == selectCostGroup.groupNo);
+        if (temp.length = 0){
+          selectCostGroup = costGroups[0];
+          wx.setStorageSync("selectCostGroup", selectCostGroup);
+          that.setData({
+            selectCostGroup: selectCostGroup
+          });
+        }
+        that.initGroupDetail(selectCostGroup.groupNo);
+      } else {
+        wx.setStorageSync("selectCostGroup", null);
+      }
+    });
+  },
+  // 初始化某一账单信息
+  initGroupDetail: function(groupNo){
+    var that = this;
+    util.redirect(api.ROOT_URI+"costGroup/"+groupNo+"/overview").then(function(res){
+      that.setData({
+        groupDetail: res.data
       });
     });
   },
@@ -93,21 +120,20 @@ Page({
       title: '登录中',
     });
     var that = this;
-    this.loginByButton(e).then(function (res) {
+    this.loginByButton(e).then(function () {
       that.initUserInfo();
       that.initGroupInfo();
-      wx.hideLoading();
       that.setData({
         userInfo: e.detail.userInfo,
         hasUserInfo: true
       });
     },function(e){
-      wx.hideLoading();
       wx.showToast({
         title: e.errMsg,
         icon: 'none'
       });
     });
+    wx.hideLoading();
   },
   loginByButton: function (e) {
     return new Promise(function (resolve, reject) {
@@ -233,8 +259,13 @@ Page({
             url: '/pages/group/group',
           })
         } else if (res.tapIndex == 0) {
+          var url = "/pages/cost/cost";
+          const selectCostGroup = that.data.selectCostGroup;
+          if (selectCostGroup){
+            url.concat("?groupId="+selectCostGroup.groupNo);
+          }
           wx.navigateTo({
-            url: '/pages/cost/cost',
+            url: url
           })
         } else if (res.tapIndex == 2) {
           wx.navigateTo({
@@ -244,4 +275,21 @@ Page({
       }
     })
   },
+  // 选择默认的账单
+  selectCostGroup: function(e){
+    wx.showLoading({title: "加载中"});
+    const selectCostGroup = this.data.costGroups[e.detail.value];
+    this.setData({
+      selectCostGroup: selectCostGroup
+    });
+    wx.setStorageSync("selectCostGroup", selectCostGroup);
+    this.initGroupDetail(selectCostGroup.groupNo);
+    wx.hiddenLoading();
+  },
+  // 拖动添加按钮
+  moveAddButton: function(e){
+    const detail = e.detail;
+    const maxWidth = wx.getSystemInfoSync().windowWidth;
+    const realWidth = e.y;
+  }
 })

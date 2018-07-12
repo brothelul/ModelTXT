@@ -4,7 +4,7 @@
  </view>
  <scroll-view bindscrolltolower="loadingMore" wx:else>
    <block wx:for="{{details}}" wx:for-item="detail">
-    <navigator bindlongtap="openDeleleComfirm" id="{{detail.costId}}">
+    <navigator bindlongtap="openDeleleComfirm" id="{{detail.costId}}" bindtap="showDetailComment">
       <view class="application-cell">
         <view class="application-cell-header">
           <image src="{{detail.user.avatarUrl}}"></image>

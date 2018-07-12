@@ -29,20 +29,21 @@
     <view>暂无数据</view>
   </view>
   <view wx:else>
-    <block wx:for="{{costGroups}}" wx:for-item="costGroup" wx:key="index">
       <view class="user-cost">
         <!-- 头部 -->
         <view class="user-cost-title">
-          <text>{{costGroup.costGroup.groupName}}({{costGroup.costUsers.length}})</text>
-          <button size="mini" style="float:right; background-color: #fff; height: 20px; width:40px; line-height: 1;" id="{{costGroup.costGroup.groupCode}}" open-type="share">
+          <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName">
+              <text class="weui-select weui-select_in-select-after">{{selectCostGroup.groupName}}</text>
+          </picker>
+          <button size="mini" style="float:right; background-color: #fff; height: 20px; width:40px; line-height: 1;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
             <view class="iconfont icon-share-square-o:before" style="font-size: 20px;"></view>
           </button>
         </view>
-
+        <!-- 中间内容体 -->
         <block wx:for="{{costGroup.costUsers}}" wx:key="userId">
         <view class="user-cost-content">
           <view class="user-cost-content-cell">
-           <navigator url="/pages/detail/detail?groupId={{costGroup.costGroup.groupNo}}&userId={{item.userId}}">
+           <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}">
               <view style="width: 85rpx;">
                 <image class="user-cost-content-cell-img" src="{{item.avatarUrl}}"></image>
               </view>           
@@ -66,7 +67,7 @@
               <view>结算应</view>
             </view>
             <view style="width: 90rpx;">
-              <navigator url="/pages/user/user?groupId={{costGroup.costGroup.groupNo}}&userId={{item.userId}}&myRole={{costGroup.myRole}}" style="padding-top: 10px; padding-bottom: 10px;">
+              <navigator url="/pages/user/user?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}&myRole={{groupDetail.myRole}}" style="padding-top: 10px; padding-bottom: 10px;">
                 <text class="iconfont icon-setting:before"></text>
               </navigator>
             </view>
@@ -76,34 +77,34 @@
       <!-- 尾部 -->
       <view class="user-cost-footer">
         <view class="user-cost-footer-cell">
-          <navigator url="/pages/detail/detail?groupId={{costGroup.costGroup.groupNo}}">
+          <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}">
             <view class="iconfont icon-xiangqing:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
             <view>消费详情</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell-center">
-          <navigator url="/pages/application/application?groupId={{costGroup.costGroup.groupNo}}&myRole={{costGroup.myRole}}">
+          <navigator url="/pages/application/application?groupId={{groupDetail.costGroup.groupNo}}&myRole={{groupDetail.myRole}}">
               <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;">
               <text style='font-size: 6px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{costGroup.notApproveCount>0}}">{{costGroup.notApproveCount}}</text>
               </text>
               <view>加入申请</view>
-                                  
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
-          <navigator bindtap="openMore" id="{{costGroup.costGroup.groupNo}}">
+          <navigator bindtap="openMore" id="{{groupDetail.costGroup.groupNo}}">
             <view class="iconfont icon-msnui-more:before weui-grid__icon" style="font-size: 20px;"></view>
             <view>更多</view>
           </navigator>
         </view>
       </view>
     </view>
-  </block>
 </view>
 
 <!-- 底部添加按钮 -->
   <view class="user-footer" wx:if="{{hasUserInfo}}">
-    <button type="primary" class="iconfont icon-tianjia:before user-footer-add" bindtap="openAdd">
-    </button>
+    <movable-view class="user-footer-add" direction="horizontal" bindchange="moveAddButton">
+        <button type="primary" class="iconfont icon-tianjia:before user-footer-add" bindtap="openAdd">
+        </button>
+    </movable-view>
   </view>
 </view>

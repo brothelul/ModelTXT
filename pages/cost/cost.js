@@ -10,7 +10,10 @@ Page({
     costGroups: [],
     costCategories: [],
     selectCategory: 1,
-    selectCostGroup: null
+    selectCostGroup: null,
+    loading: false,
+    showTopTip: false,
+    errorMsg: null
   },
 
   /**
@@ -42,7 +45,6 @@ Page({
       } else{
         costGroup = costGroups[0];
       }
-      console.log(res)
       that.setData({
         costGroups: costGroups,
         selectCostGroup: costGroup
@@ -68,19 +70,46 @@ Page({
   },
   // 创建新的消费记录
   createNewCost: function(e){
-    const costMoney = e.detail.value.costMoney;
+    this.setData({
+      loading: true
+    });
+    var costMoney = e.detail.value.costMoney;
     const comment = e.detail.value.comment;
+    const costDate = this.data.costDate;
+    const cateId = this.data.selectCategory;
+    var transitMoneyFailed = false;
+    try {
+      costMoney = parseFloat(costMoney);
+    } catch (err){
+      transitMoneyFailed = true;
+    }
+    if (costDate == null || cateId == null || transitMoneyFailed){
+      this.setData({
+        loading: false,
+        showTopTip: true,
+        errorMsg: "时间和分类不能为空"
+      });
+      var that = this;
+      setTimeout(function () {
+        that.setData({
+          showTopTip: false
+        });
+      }, 3000);
+    }
     const body = {
-      cateId: this.data.selectCategory,
-      costDate: this.data.costDate,
+      cateId: cateId,
+      costDate: costDate,
       costDesc: comment,
-      costMoney: parseFloat(costMoney)
+      costMoney: costMoney
     };
     util.request(api.ROOT_URI+'costDetail/'+this.data.selectCostGroup.groupNo, body, 'POST').then(function(){
       util.showSuccessToast('创建消费记录成功');
       wx.reLaunch({
         url: '/pages/index/index?from=share'
       })
+    });
+    this.setData({
+      loading: false
     });
   }
 })
