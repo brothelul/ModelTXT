@@ -29,8 +29,10 @@ function request(url, data = {}, method ='GET') {
       header: header,
       success: function (res) {
         if (res.statusCode == 200) {
+          wx.hideLoading();
           resolve(res.data);
         } else if (res.statusCode == 401) {
+          wx.hideLoading();
           //需要登录后才可以操作
           wx.showModal({
             title: '',
@@ -45,16 +47,18 @@ function request(url, data = {}, method ='GET') {
             }
           });
         } else{
+          wx.hideLoading();
           wx.showToast({
             title: res.data.message,
             icon: 'none',
-            duration: 2000
+            duration: 3000
           });
           reject(res.data.message);
         }
       },
       fail: function (err) {
         reject(err);
+        wx.hideLoading();
         wx.showToast({
           title: err.errMsg,
           icon: 'none',
@@ -66,66 +70,6 @@ function request(url, data = {}, method ='GET') {
   });
 }
 
-/**
- * 检查微信会话是否过期
- */
-function checkSession() {
-  return new Promise(function (resolve, reject) {
-    wx.checkSession({
-      success: function () {
-        resolve(true);
-      },
-      fail: function () {
-        reject(false);
-      }
-    })
-  });
-}
-
-/**
- * 调用微信登录
- */
-function login() {
-  return new Promise(function (resolve, reject) {
-    wx.login({
-      success: function (res) {
-        if (res.code) {
-          //登录远程服务器
-          console.log(res)
-          resolve(res);
-        } else {
-          reject(res);
-        }
-      },
-      fail: function (err) {
-        reject(err);
-      }
-    });
-  });
-}
-
-function redirect(url) {
-
-  //判断页面是否需要登录
-  if (false) {
-    wx.redirectTo({
-      url: '/pages/auth/login/login'
-    });
-    return false;
-  } else {
-    wx.redirectTo({
-      url: url
-    });
-  }
-}
-
-function showErrorToast(msg) {
-  wx.showToast({
-    title: msg,
-    image: '/static/images/icon_error.png'
-  })
-}
-
 function showSuccessToast(msg) {
   wx.showToast({
     title: msg,
@@ -133,13 +77,24 @@ function showSuccessToast(msg) {
   })
 }
 
+function showLoading(msg){
+  msg = msg ? msg : '加载中';
+  wx.showLoading({
+    title: msg,
+  })
+}
+
+function setNavigationBarTitle(msg){
+  wx.setNavigationBarTitle({
+    title: msg,
+  })
+}
+
 module.exports = {
   formatTime,
   request,
-  redirect,
-  showErrorToast,
   showSuccessToast,
-  checkSession,
-  login,
+  showLoading,
+  setNavigationBarTitle
 }
 

@@ -20,7 +20,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    util.setNavigationBarTitle('新建消费记录');
+    util.showLoading();
     const groupId = options.groupId;
+    console.log(groupId)
     this.initCategory();
     this.initCostGroup(groupId);
   },
@@ -41,7 +44,7 @@ Page({
       // 如果有group则初始化
       var costGroup;
       if (groupId){
-        costGroup = costGroups.filter(item => item.groupId == groupId)[0];
+        costGroup = costGroups.filter(item => item.groupNo == groupId)[0];
       } else{
         costGroup = costGroups[0];
       }

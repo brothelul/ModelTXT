@@ -32,13 +32,13 @@
         </view>
         <view class="user-cost-footer-cell-center">
           <navigator url="/pages/index/index?from=share" open-type="reLaunch">
-              <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;"></text>
-              <view>首页</view>                     
+              <text class="iconfont icon-home:before weui-grid__icon" style="font-size: 20px;"></text>
+              <view>回到首页</view>                     
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
             <button size="mini" style="background-color: #fff;" open-type="share">
-              <view class="iconfont icon-share-square-o:before" style="font-size: 20px;"></view>
+              <view class="iconfont icon-share:before" style="font-size: 20px;"></view>
             </button>
         </view>
       </view>

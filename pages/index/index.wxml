@@ -32,15 +32,15 @@
       <view class="user-cost">
         <!-- 头部 -->
         <view class="user-cost-title">
-          <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName">
-              <text class="weui-select weui-select_in-select-after">{{selectCostGroup.groupName}}</text>
-          </picker>
-          <button size="mini" style="float:right; background-color: #fff; height: 20px; width:40px; line-height: 1;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
-            <view class="iconfont icon-share-square-o:before" style="font-size: 20px;"></view>
-          </button>
+            <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName" style="width:83%; float: left;">
+              <text class="user-cost-title-text">{{selectCostGroup.groupName}} ~</text>
+            </picker> 
+            <button size="mini" style="background-color: #fff; height: 20px;line-height: 1;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
+              <text class="iconfont icon-share-square-o:before" style="font-size: 20px;"></text>
+            </button>
         </view>
         <!-- 中间内容体 -->
-        <block wx:for="{{costGroup.costUsers}}" wx:key="userId">
+        <block wx:for="{{groupDetail.costUsers}}" wx:key="userId">
         <view class="user-cost-content">
           <view class="user-cost-content-cell">
            <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}">
@@ -85,13 +85,13 @@
         <view class="user-cost-footer-cell-center">
           <navigator url="/pages/application/application?groupId={{groupDetail.costGroup.groupNo}}&myRole={{groupDetail.myRole}}">
               <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;">
-              <text style='font-size: 6px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{costGroup.notApproveCount>0}}">{{costGroup.notApproveCount}}</text>
+              <text style='font-size: 6px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{groupDetail.notApproveCount>0}}">{{groupDetail.notApproveCount}}</text>
               </text>
               <view>加入申请</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
-          <navigator bindtap="openMore" id="{{groupDetail.costGroup.groupNo}}">
+          <navigator bindtap="openMore">
             <view class="iconfont icon-msnui-more:before weui-grid__icon" style="font-size: 20px;"></view>
             <view>更多</view>
           </navigator>
@@ -102,9 +102,7 @@
 
 <!-- 底部添加按钮 -->
   <view class="user-footer" wx:if="{{hasUserInfo}}">
-    <movable-view class="user-footer-add" direction="horizontal" bindchange="moveAddButton">
         <button type="primary" class="iconfont icon-tianjia:before user-footer-add" bindtap="openAdd">
         </button>
-    </movable-view>
   </view>
 </view>

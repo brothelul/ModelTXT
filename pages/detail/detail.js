@@ -4,13 +4,17 @@ const api = require('../../config/api.js');
 Page({
     data:{
       currentPage: 1,
-      pageSize: 50,
+      pageSize: 100,
       details: [],
       touchColor: null,
       cleanId: null,
       userId: null,
+      startTime: 0,
+      endTime: 0
     },
     onLoad: function(options){
+      util.setNavigationBarTitle('消费记录');
+      util.showLoading();
       const groupId = options.groupId;
       const cleanId = options.cleanId;
       const userId = options.userId;
@@ -48,7 +52,6 @@ Page({
           details: details,
           currentPage: res.data.page
         });
-        console.log("details",{ ...that.data.details, ...res.data.data },);
       });
     },
     loadingMore: function(e){
@@ -71,7 +74,7 @@ Page({
         content: '确定要删除该消费记录吗？',
         success: function(res){
           if(res.confirm){
-            util.request(api.DELETE_DETAIL + detailId, {},"DELETE").then(function(){
+            util.request(api.ROOT_URI+"costDetail/costGroup/"+that.data.groupId+"/detail/" + detailId, {},"DELETE").then(function(){
               var details = that.data.details;
               details = details.filter(item => item.costId != detailId);
               that.setData({
@@ -85,6 +88,10 @@ Page({
     },
   // 展示账单的备注信息
   showDetailComment: function(e){
+    const grap = this.data.endTime - this.data.startTime;
+    if (grap>350){
+      return;
+    }
     const detailId = e.currentTarget.id;
     const details = this.data.details;
     const costDetail = details.filter(item => item.costId == detailId)[0];
@@ -96,5 +103,15 @@ Page({
       showCancel: false,
       confirmText: "关闭"
     })
+  },
+  bindTouchStart: function (e) {
+    this.setData({
+      startTime: e.timeStamp
+    });
+  },
+  bindTouchEnd: function (e) {
+    this.setData({
+      endTime: e.timeStamp
+    });
   }
 })

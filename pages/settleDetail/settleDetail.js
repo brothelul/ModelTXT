@@ -14,12 +14,14 @@ Page({
     showPie: false
   },
   onLoad: function (options) {
+    util.setNavigationBarTitle('结算详情');
     const type = options.type;
     const groupId = options.groupId;
     const cleanId = options.cleanId;
     const from = options.from;
     console.log("groupId", groupId);
     console.log("cleanId", cleanId);
+    util.showLoading();
     if(from){
       var that = this;
       app.login().then(function(){
@@ -35,9 +37,13 @@ Page({
     util.request(url).then(function (res) {
       that.initData(res);
       that.setData({
-        groupId: groupId,
-        cleanId: cleanId
+        groupId: groupId
       });
+      if (cleanId){
+        that.setData({
+          cleanId: cleanId
+        });
+      }
     })
   },
   initData: function(res){
@@ -134,7 +140,7 @@ Page({
     const cleanId = this.data.cleanId;
     return{
       path: "pages/settleDetail/settleDetail?groupId="+groupId+"&cleanId="+cleanId+"&from=share",
-      title: costDetail.costGroupBo.groupName+"账单的结算记录"
+      title: costDetail.costGroup.groupName+"账单的结算记录"
     }
   }
 })

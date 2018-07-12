@@ -21,6 +21,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    util.showLoading();
     const groupId = options.groupId;
     const userId = options.userId;
     const myRole = options.myRole;
@@ -90,6 +91,7 @@ Page({
       }, 3000);
       return;
     }
+    util.showLoading();
     const body = { targetNo: this.data.userId, remarkName: remarkName};
     util.request(api.REMARK_NAME, body, 'POST').then(function(){
       var user = that.data.user;

@@ -60,11 +60,16 @@
   margin: 0px 16px;
   padding: 8px 0;
 }
+.user-cost-title-text{
+  border: 1px solid;
+  border-radius: 6px; 
+  padding: 1px;
+}
 .user-cost-title button::after{
   border: none;
 }
 .user-cost-content{
-  position:relative;
+  position: relative;
   line-height:1.41176471;
   font-size:12px;
   text-align: center;

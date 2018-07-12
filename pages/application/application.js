@@ -8,11 +8,10 @@ Page({
     myRole: null
   },
   onLoad: function(options){
+    util.showLoading();
     const groupId = options.groupId;
     const myRole = options.myRole;
-    wx.setNavigationBarTitle({
-      title: '用户申请',
-    });
+    util.setNavigationBarTitle('用户申请');
     this.setData({
       groupId: groupId,
       myRole: myRole
@@ -32,12 +31,9 @@ Page({
     });
   },
   onPullDownRefresh: function(){
-    wx.showLoading({
-      title: '加载中'
-    });
+    util.showLoading();
     this.loadApplication(this.data.groupId);
     wx.stopPullDownRefresh();
-    wx.hideLoading();
   },
   // 同意申请
   approveJoin: function(e){

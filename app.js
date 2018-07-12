@@ -35,15 +35,26 @@ App({
                           console.log("登录失败")
                           reject(res.data.message);
                         }
+                        wx.hideLoading();
                       },
                       fail: function(res){
                         reject(res);
+                        wx.hideLoading();
+                        wx.showToast({
+                          title: err.errMsg,
+                          icon: 'none',
+                        })
                       }
                     });
                   }
                 });
               } else{
                 reject();
+                wx.hideLoading();
+                wx.showToast({
+                  title: "登录失败",
+                  icon: 'none',
+                })
               }
             }
           })

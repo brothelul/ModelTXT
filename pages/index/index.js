@@ -12,32 +12,25 @@ Page({
     hasUserInfo: app.globalData.hasUserInfo,
     costGroups: [],
     groupDetail: null,
-    selectCostGroup: wx.getStorageSync("selectCostGroup")
+    selectCostGroup: null
   },
   onLoad: function (options) {
+    const defualtCostGroup = wx.getStorageSync("selectCostGroup");
+    this.setData({
+      selectCostGroup: defualtCostGroup
+    });
     console.log(options)
     if (options.from){
-      wx.showLoading({
-        title: '加载中',
-      });
+      util.showLoading();
       this.initUserInfo();
       this.initGroupInfo();
       wx.hideLoading();
     } else{
-      wx.showLoading({
-        title: '登录中',
-      });
+      util.showLoading('登录中');
       var that = this;
       app.login().then(function () {
         that.initUserInfo();
         that.initGroupInfo();
-        wx.hideLoading();
-      }, function (err) {
-        wx.hideLoading();
-        wx.showToast({
-          title: err.errMsg,
-          icon: 'none',
-        })
       });
     }
   },
@@ -58,21 +51,26 @@ Page({
     var that = this;
     util.request(api.COSTGROUP).then(function (res) {
       const costGroups = res.data;
+      console.log("costGroups",res.data)
       that.setData({
         costGroups: costGroups
       });
       if (costGroups.length > 0){
         // 判断是否存在默认的组
         var selectCostGroup = that.data.selectCostGroup;
+        console.log(selectCostGroup)
         selectCostGroup = selectCostGroup ? selectCostGroup : {};
         const temp = costGroups.filter(item => item.groupNo == selectCostGroup.groupNo);
-        if (temp.length = 0){
+        if (temp.length == 0){
           selectCostGroup = costGroups[0];
-          wx.setStorageSync("selectCostGroup", selectCostGroup);
-          that.setData({
-            selectCostGroup: selectCostGroup
-          });
+        } else{
+          selectCostGroup = temp[0];
         }
+        console.log("temp", selectCostGroup)
+        that.setData({
+          selectCostGroup: selectCostGroup
+        });
+        wx.setStorageSync("selectCostGroup", selectCostGroup);
         that.initGroupDetail(selectCostGroup.groupNo);
       } else {
         wx.setStorageSync("selectCostGroup", null);
@@ -81,8 +79,10 @@ Page({
   },
   // 初始化某一账单信息
   initGroupDetail: function(groupNo){
+    console.log("groupNo", groupNo);
     var that = this;
-    util.redirect(api.ROOT_URI+"costGroup/"+groupNo+"/overview").then(function(res){
+    util.request(api.ROOT_URI+"costGroup/"+groupNo+"/overview").then(function(res){
+      console.log(res.data)
       that.setData({
         groupDetail: res.data
       });
@@ -90,12 +90,9 @@ Page({
   },
   // 下拉刷新页面
   onPullDownRefresh: function () {
-    wx.showLoading({
-      title: '加载中',
-    });
+    util.showLoading();
     this.initUserInfo();
     this.initGroupInfo();
-    wx.hideLoading();
     wx.stopPullDownRefresh();
   },
   // 分享页面
@@ -103,9 +100,9 @@ Page({
     if (res.from == 'button') {
       const groupCode = res.target.id;
       const userName = this.data.userInfo.nickName;
-      const costGroups = this.data.costGroups.filter(item => item.costGroup.groupCode == groupCode);
+      const costGroups = this.data.costGroups.filter(item => item.groupCode == groupCode);
       return {
-        title: userName + '邀请你加入账单' + costGroups[0].costGroup.groupName,
+        title: userName + '邀请你加入账单' + costGroups[0].groupName,
         path: 'pages/approval/approval?groupCode=' + groupCode
       }
     } else {
@@ -116,9 +113,7 @@ Page({
     }
   },
   getUserInfo: function (e) {
-    wx.showLoading({
-      title: '登录中',
-    });
+    util.showLoading('登录中');
     var that = this;
     this.loginByButton(e).then(function () {
       that.initUserInfo();
@@ -127,13 +122,7 @@ Page({
         userInfo: e.detail.userInfo,
         hasUserInfo: true
       });
-    },function(e){
-      wx.showToast({
-        title: e.errMsg,
-        icon: 'none'
-      });
     });
-    wx.hideLoading();
   },
   loginByButton: function (e) {
     return new Promise(function (resolve, reject) {
@@ -159,8 +148,10 @@ Page({
                 console.log("登录失败")
                 reject(res.data.message);
               }
+              wx.hideLoading();
             },fail: function(res){
-              console.log(res)
+              console.log(res);
+              wx.hideLoading();
               reject(res);
             }
           });
@@ -169,12 +160,12 @@ Page({
     });
   },
   // open more action
-  openMore: function (e) {
-    const groupId = e.currentTarget.id;
-    var selectGroup = this.data.costGroups.filter(item => item.costGroup.groupNo == groupId)[0];
+  openMore: function () {
+    const selectGroup = this.data.selectCostGroup;
+    const groupId = selectGroup.groupNo;
     var that = this;
     var itemList = ['设置', '退出', '结算', "结算记录"];
-    if (selectGroup.myRole == 'admin') {
+    if (this.data.groupDetail.myRole == 'admin') {
       itemList = itemList.concat(['删除']);
     }
     wx.showActionSheet({
@@ -200,10 +191,12 @@ Page({
                   const url = api.ROOT_URI+'costGroup/'+groupId+'/leave';
                   util.request(url, {}, 'DELETE').then(function () {
                     // 从当前数据中删除改组
-                    var newCostGroups = that.data.costGroups.filter(item => item.costGroup.groupNo != groupId);
+                    var newCostGroups = that.data.costGroups.filter(item => item.groupNo != groupId);
                     that.setData({
                       costGroups: newCostGroups
                     });
+                    util.showLoading();
+                    that.initGroupInfo();
                   });
                 }
               }
@@ -232,10 +225,12 @@ Page({
                 if (res.confirm) {
                   util.request(api.DELETE_GROUP + groupId, {}, 'DELETE').then(function () {
                     var costGroups = that.data.costGroups;
-                    costGroups = costGroups.filter(item => item.costGroup.groupNo != groupId);
+                    costGroups = costGroups.filter(item => item.groupNo != groupId);
                     that.setData({
                       costGroups: costGroups
                     });
+                    util.showLoading();
+                    that.initGroupInfo();
                   });
                 }
               }
@@ -249,10 +244,10 @@ Page({
     })
   },
   // 打开添加按钮
-  openAdd: () => {
-    var that = this;
+  openAdd: function(){
+    const selectCostGroup = this.data.selectCostGroup;
     wx.showActionSheet({
-      itemList: ['添加消费记录', '创建新的账单', "报一个BUG"],
+      itemList: ['添加消费记录', '创建新的账单'],
       success: (res) => {
         if (res.tapIndex == 1) {
           wx.navigateTo({
@@ -260,9 +255,8 @@ Page({
           })
         } else if (res.tapIndex == 0) {
           var url = "/pages/cost/cost";
-          const selectCostGroup = that.data.selectCostGroup;
           if (selectCostGroup){
-            url.concat("?groupId="+selectCostGroup.groupNo);
+            url=url.concat("?groupId="+selectCostGroup.groupNo);
           }
           wx.navigateTo({
             url: url
@@ -277,14 +271,13 @@ Page({
   },
   // 选择默认的账单
   selectCostGroup: function(e){
-    wx.showLoading({title: "加载中"});
+    util.showLoading();
     const selectCostGroup = this.data.costGroups[e.detail.value];
     this.setData({
       selectCostGroup: selectCostGroup
     });
     wx.setStorageSync("selectCostGroup", selectCostGroup);
     this.initGroupDetail(selectCostGroup.groupNo);
-    wx.hiddenLoading();
   },
   // 拖动添加按钮
   moveAddButton: function(e){

@@ -11,9 +11,13 @@ Page({
   },
   onLoad: function(options){
     const groupId = options.groupId;
+    var msg = '新建账单';
     if (groupId){
+      util.showLoading();
       this.initCostGroup(groupId);
+      msg = "修改账单"
     }
+    util.setNavigationBarTitle(msg);
   },
   // 如果传入groupId那么会判断是否需要进行更新操作
   initCostGroup: function(groupId){

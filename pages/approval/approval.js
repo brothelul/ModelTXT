@@ -10,6 +10,7 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
+    util.showLoading();
     app.login().then(function(){
       const groupCode = options.groupCode;
       const cookie = wx.getStorageSync('cookie');
@@ -18,6 +19,7 @@ Page({
       });
       // 获取账单
       util.request(api.GET_GROUP_BY_CODE + groupCode).then(function (res) {
+        console.log("res", res);
         if (res.data == null && res.status == 200) {
           wx.reLaunch({
             url: '/pages/index/index?from=share',

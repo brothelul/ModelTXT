@@ -4,7 +4,7 @@
  </view>
  <view wx:else>
    <block wx:for="{{costCleans}}" wx:for-item="clean">
-    <navigator url="/pages/settleDetail/settleDetail?groupId={{clean.costGroupBo.groupNo}}&cleanId={{clean.cleanId}}">
+    <navigator url="/pages/settleDetail/settleDetail?groupId={{clean.costGroup.groupNo}}&cleanId={{clean.cleanId}}">
       <view style="margin:8px 8px;">
         <canvas canvas-id="lineCanvas" class="canvas" style="width:100%;height:220px;margin-bottom: 8px;background-color: #fff;"></canvas>
       </view>
