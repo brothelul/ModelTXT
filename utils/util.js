@@ -35,9 +35,9 @@ function request(url, data = {}, method ='GET') {
           wx.hideLoading();
           //需要登录后才可以操作
           wx.showModal({
-            title: '',
+            title: '温馨提示',
             content: '请先登录',
-            cancelText: '',
+            showCancel: false,
             success: function (res) {
               if (res.confirm) {
                 wx.redirectTo({
@@ -90,11 +90,28 @@ function setNavigationBarTitle(msg){
   })
 }
 
+function toIndexPageModal(msg, hasLogin){
+  console.log(hasLogin);
+  var url = '/pages/index/index';
+  url = hasLogin ? url+'?from=share' : url;
+  wx.showModal({
+    title: '温馨提示',
+    content: msg,
+    showCancel: false,
+    success: function () {
+      wx.reLaunch({
+        url: url,
+      })
+    },
+  });
+}
+
 module.exports = {
   formatTime,
   request,
   showSuccessToast,
   showLoading,
-  setNavigationBarTitle
+  setNavigationBarTitle,
+  toIndexPageModal
 }
 

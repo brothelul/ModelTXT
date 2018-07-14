@@ -53,5 +53,7 @@ Page({
         approvalUsers: users
       });
     });
+    const formId = e.detail.formId;
+    util.request(api.CREATE_NOTIFICATION, formId, 'POST');
   }
 })

@@ -1,6 +1,6 @@
 <view class="page">
   <view class="top-tip" wx:if="{{showTopTip}}">{{errorMsg}}</view>
-  <form bindsubmit="newOrUpdateGroup">
+  <form bindsubmit="newOrUpdateGroup" report-submit>
     <view class="group">
       <view class="group-input">
         <view class="group-input-label">账单名称</view>

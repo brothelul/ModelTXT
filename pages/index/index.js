@@ -24,7 +24,6 @@ Page({
       util.showLoading();
       this.initUserInfo();
       this.initGroupInfo();
-      wx.hideLoading();
     } else{
       util.showLoading('登录中');
       var that = this;
@@ -97,6 +96,7 @@ Page({
   },
   // 分享页面
   onShareAppMessage: function (res) {
+    console.log(res)
     if (res.from == 'button') {
       const groupCode = res.target.id;
       const userName = this.data.userInfo.nickName;
@@ -122,9 +122,16 @@ Page({
         userInfo: e.detail.userInfo,
         hasUserInfo: true
       });
+    }, function(){
+      wx.showToast({
+        title: "未授权，登录失败",
+        icon: 'none',
+        duration: 3000
+      })
     });
   },
   loginByButton: function (e) {
+    console
     return new Promise(function (resolve, reject) {
       wx.login({
         success: res => {
@@ -164,7 +171,7 @@ Page({
     const selectGroup = this.data.selectCostGroup;
     const groupId = selectGroup.groupNo;
     var that = this;
-    var itemList = ['设置', '退出', '结算', "结算记录"];
+    var itemList = ['设置', '退出', '结算', "历史结算记录"];
     if (this.data.groupDetail.myRole == 'admin') {
       itemList = itemList.concat(['删除']);
     }
@@ -244,16 +251,21 @@ Page({
     })
   },
   // 打开添加按钮
-  openAdd: function(){
+  openAdd: function(e){
+    console.log(e)
     const selectCostGroup = this.data.selectCostGroup;
+    var itemList = ['创建新的账单'];
+    if (this.data.costGroups.length > 0){
+      itemList.push('添加消费记录');
+    }
     wx.showActionSheet({
-      itemList: ['添加消费记录', '创建新的账单'],
+      itemList: itemList,
       success: (res) => {
-        if (res.tapIndex == 1) {
+        if (res.tapIndex == 0) {
           wx.navigateTo({
             url: '/pages/group/group',
           })
-        } else if (res.tapIndex == 0) {
+        } else if (res.tapIndex == 1) {
           var url = "/pages/cost/cost";
           if (selectCostGroup){
             url=url.concat("?groupId="+selectCostGroup.groupNo);

@@ -82,7 +82,11 @@ Page({
     const cateId = this.data.selectCategory;
     var transitMoneyFailed = false;
     try {
-      costMoney = parseFloat(costMoney);
+      if (costMoney){
+        costMoney = parseFloat(costMoney);
+      } else{
+        throw "cost money can not be null"
+      }
     } catch (err){
       transitMoneyFailed = true;
     }
@@ -90,7 +94,7 @@ Page({
       this.setData({
         loading: false,
         showTopTip: true,
-        errorMsg: "时间和分类不能为空"
+        errorMsg: "时间/分类/花费不能为空"
       });
       var that = this;
       setTimeout(function () {
@@ -98,6 +102,7 @@ Page({
           showTopTip: false
         });
       }, 3000);
+      return;
     }
     const body = {
       cateId: cateId,
@@ -114,5 +119,7 @@ Page({
     this.setData({
       loading: false
     });
+    const formId = e.detail.formId;
+    util.request(api.CREATE_NOTIFICATION, formId, 'POST');
   }
 })

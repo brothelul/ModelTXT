@@ -6,7 +6,7 @@
           <view>
             <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
             <view class="userinfo-nickname">
-              <button wx:if="{{!hasUserInfo}}"  open-type="getUserInfo" bindgetuserinfo="getUserInfo" size="mini" style="line-height: 1.5; padding: 0 2px;">点击登录</button>
+              <button wx:if="{{!hasUserInfo}}"  open-type="getUserInfo" bindgetuserinfo="getUserInfo" size="mini" style="line-height: 1.5; padding: 0 2px;">授权登录</button>
               <view wx:else>{{userInfo.nickName}}</view>
             </view>
           </view>
@@ -102,7 +102,7 @@
 
 <!-- 底部添加按钮 -->
   <view class="user-footer" wx:if="{{hasUserInfo}}">
-        <button type="primary" class="iconfont icon-tianjia:before user-footer-add" bindtap="openAdd">
-        </button>
+    <button type="primary" class="iconfont icon-tianjia:before user-footer-add"  bindtap="openAdd">
+    </button>
   </view>
 </view>

@@ -8,11 +8,10 @@
   </view>
   <view class="top-tip" wx:if="{{showTopTip}}">{{errorMsg}}</view>
   <view class="weui-cells weui-cells_after-title" style="margin:8px 8px;background-color:#F8F8F8" wx:if="{{cleanId == null}}">
-     <form bindsubmit="settleDetail">
+     <form bindsubmit="settleDetail" report-submit>
         <view class="weui-cell" style="background-color:#FFF">
             <view class="weui-cell__bd">
               <textarea class="weui-textarea" placeholder="结算备注信息" style="height: 3.0em" name="comment"/>
-              <view class="weui-textarea-counter">0/200</view>
             </view>
         </view>
         <view style="background-color: #F8F8F8;">

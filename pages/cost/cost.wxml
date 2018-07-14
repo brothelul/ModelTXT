@@ -1,6 +1,6 @@
 <view class="page">
   <view class="top-tip" wx:if="{{showTopTip}}">{{errorMsg}}</view>
-  <form bindsubmit="createNewCost">
+  <form bindsubmit="createNewCost" report-submit="true">
     <view class="weui-cells weui-cells_after-title" style="margin-top: 8px;">
         <view class="load-more-new">
             <view class="weui-loadmore__tips weui-loadmore__tips_in-line">消费用途</view>
@@ -52,7 +52,6 @@
         <view class="weui-cell">
               <view class="weui-cell__bd">
                   <textarea class="weui-textarea" placeholder="消费的详细项目" style="height: 3.3em" name="comment"/>
-                  <view class="weui-textarea-counter">0/200</view>
               </view>
           </view>
       </view>

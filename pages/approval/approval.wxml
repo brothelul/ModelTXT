@@ -1,6 +1,6 @@
 <view class="page">
   <view class="top-tip" wx:if="{{showTopTip}}">{{errorMsg}}</view>
-  <form bindsubmit='requestJoin'>
+  <form bindsubmit='requestJoin' report-submit>
     <view class="weui-cells weui-cells_after-titl">
             <view class="weui-cell weui-cell_input">
                 <view class="weui-cell__hd">

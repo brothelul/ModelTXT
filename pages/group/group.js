@@ -60,5 +60,11 @@ Page({
         url: '/pages/index/index?from=share',
       })
     });
+    this.setData({
+      loading: false
+    });
+    const formId = e.detail.formId;
+    console.log("formId", formId);
+    util.request(api.CREATE_NOTIFICATION, formId, 'POST');
   }
 })

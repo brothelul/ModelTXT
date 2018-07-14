@@ -13,7 +13,9 @@
       <view class="application-cell-header-comment">{{item.comment}}</view>
     </view>
     <view wx:if="{{item.status == '未处理'}}">
-      <button size="mini" type="primary" id="{{item.user.userId}}" bindtap="approveJoin" loading="{{item.loading}}" wx:if="{{myRole == 'admin'}}">接受</button>
+      <form report-submit bindsubmit='approveJoin' wx:if="{{myRole == 'admin'}}"  id="{{item.user.userId}}">
+            <button size="mini" type="primary" form-type='submit'  loading="{{item.loading}}">接受</button>
+      </form>
       <view wx:else class="application-cell-header-comment">
         待接受
       </view>

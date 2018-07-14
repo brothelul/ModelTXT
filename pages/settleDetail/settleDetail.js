@@ -26,6 +26,8 @@ Page({
       var that = this;
       app.login().then(function(){
         that.init(type, groupId, cleanId);
+      }, function(){
+        util.toIndexPageModal('获取授权登录失败，去首页授权登录');
       })
     } else{
       this.init(type, groupId, cleanId);
@@ -44,6 +46,8 @@ Page({
           cleanId: cleanId
         });
       }
+    }, function(res){
+      util.toIndexPageModal(res + '，去首页', true);
     })
   },
   initData: function(res){
@@ -122,6 +126,7 @@ Page({
       }, 3000);
       return;
     }
+    util.showLoading('结算中');
     const groupId = this.data.groupId;
     const url = api.ROOT_URI+"costDetail/"+groupId+"/clean";
     util.request(url, comment, 'DELETE').then(function(res){
@@ -133,6 +138,8 @@ Page({
     this.setData({
       loading: false
     });
+    const formId = e.detail.formId;
+    util.request(api.CREATE_NOTIFICATION, formId, 'POST');
   },
   onShareAppMessage: function(){
     const costDetail = this.data.cleanDetail;

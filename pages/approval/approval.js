@@ -21,22 +21,18 @@ Page({
       util.request(api.GET_GROUP_BY_CODE + groupCode).then(function (res) {
         console.log("res", res);
         if (res.data == null && res.status == 200) {
-          wx.reLaunch({
-            url: '/pages/index/index?from=share',
-          })
-        } else {
+          util.toIndexPageModal('你已经在该账单中了，去首页', true);
+        } else if (res.data && res.status == 200) {
           that.setData({
             costGroup: res.data
           });
         }
-      }, function (err) {
-        console.log(err);
-        wx.hideLoading();
-        wx.showToast({
-          title: err.errMsg,
-          icon: 'none',
-        })
+      }, function(res){
+        console.log(res);
+        util.toIndexPageModal(res + '，去首页', true);
       });
+    }, function(){
+      util.toIndexPageModal('获取授权登录失败，去首页授权登录');
     });
   },
   requestJoin: function(e){
@@ -54,6 +50,9 @@ Page({
       }, 2000);
       return;
     }
+    const formId = e.detail.formId;
+    util.request(api.CREATE_NOTIFICATION, formId, 'POST');
+    console.log("formId", formId);
     const body = {comment: comment,groupCode: this.data.groupCode};
     util.request(api.APPROVAL, body, 'POST').then(function(res){
       wx.showToast({

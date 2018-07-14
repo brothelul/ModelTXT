@@ -1,5 +1,5 @@
 const rootUri = 'https://www.modutxt.xin/public/api/';
-// const rootUri = 'https://192.168.31.213/public/api/';
+//const rootUri = 'https://192.168.31.213/public/api/';
 module.exports = {
   ROOT_URI: rootUri,
   LOGIN: rootUri + 'login',
@@ -17,5 +17,6 @@ module.exports = {
   COSTGROUP_BY_ID: rootUri+'costGroup/',
   DELETE_DETAIL: rootUri + 'costDetail/detail/',
   CLEAN_HISTORY: rootUri + 'costClean/costGroup/',
-  UNCLEAN_DETAIL: rootUri +'costClean/unClean/costGroup/'
+  UNCLEAN_DETAIL: rootUri +'costClean/unClean/costGroup/',
+  CREATE_NOTIFICATION: rootUri + 'notification/collect/formId'
 }
