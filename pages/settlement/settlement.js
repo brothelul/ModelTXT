@@ -45,10 +45,9 @@ Page({
         tempTotal.data.push(item.totalCost);
         tempAverage.data.push(item.averageCost);
       });
-      series.push(tempTotal);
-      series.push(tempAverage);
-      console.log("categories", categories);
-      console.log("series", series);
+      // 倒序排列，符合生活逻辑
+      series.push(tempTotal.reverse());
+      series.push(tempAverage.reverse());
       this.initLine(categories, series);
     }
 

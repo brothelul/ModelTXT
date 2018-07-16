@@ -294,6 +294,7 @@ Page({
   // 拖动添加按钮
   moveAddButton: function(e){
     const detail = e.detail;
+    console.log("move", detail);
     const maxWidth = wx.getSystemInfoSync().windowWidth;
     const realWidth = e.y;
   }
