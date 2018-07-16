@@ -32,11 +32,18 @@
       <view class="user-cost">
         <!-- 头部 -->
         <view class="user-cost-title">
-            <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName" style="width:83%; float: left;">
+            <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName" style="width:77%; float: left;margin-top:1px;">
               <text class="user-cost-title-text">{{selectCostGroup.groupName}} ~</text>
             </picker> 
-            <button size="mini" style="background-color: #fff; height: 20px;line-height: 1;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
-              <text class="iconfont icon-share-square-o:before" style="font-size: 20px;"></text>
+            <button size="mini" style="background-color: #fff; height: 30px;line-height: 0.9;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
+              <view style="display:inline;">
+                <view>
+                  <text class="iconfont icon-share:before" style="font-size: 15px;"></text>
+                </view>
+                <view style="margin-top:-1px;">
+                  <text style="font-size:9px;">邀请好友</text>
+                </view>
+              </view>
             </button>
         </view>
         <!-- 中间内容体 -->
@@ -100,17 +107,12 @@
     </view>
 </view>
 
+<view style="height:60px;"></view>
+
 <!-- 底部添加按钮 -->
-<movable-area width="100%" height="50px">
-    <movable-view class="user-footer user-footer-add" bindchange="moveAddButton">
-       <button type="primary" class="iconfont icon-tianjia:before"  bindtap="openAdd">
-       </button>
-    </movable-view>
-</movable-area>
-<!--
+
   <view class="user-footer" wx:if="{{hasUserInfo}}">
     <button type="primary" class="iconfont icon-tianjia:before user-footer-add"  bindtap="openAdd">
     </button>
   </view>
--->
 </view>

@@ -12,7 +12,8 @@ Page({
     hasUserInfo: app.globalData.hasUserInfo,
     costGroups: [],
     groupDetail: null,
-    selectCostGroup: null
+    selectCostGroup: null,
+    showSmall: true
   },
   onLoad: function (options) {
     const defualtCostGroup = wx.getStorageSync("selectCostGroup");
@@ -28,6 +29,7 @@ Page({
       util.showLoading('登录中');
       var that = this;
       app.login().then(function () {
+        util.showLoading();
         that.initUserInfo();
         that.initGroupInfo();
       });
@@ -291,11 +293,4 @@ Page({
     wx.setStorageSync("selectCostGroup", selectCostGroup);
     this.initGroupDetail(selectCostGroup.groupNo);
   },
-  // 拖动添加按钮
-  moveAddButton: function(e){
-    const detail = e.detail;
-    console.log("move", detail);
-    const maxWidth = wx.getSystemInfoSync().windowWidth;
-    const realWidth = e.y;
-  }
 })

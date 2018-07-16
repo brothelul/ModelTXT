@@ -39,19 +39,19 @@ Page({
         name: '平均消费', data: [], format: function (val) {
           return val.toFixed(2) + '元';
         }
-      };      
-      costCleans.map(item => {
+      }; 
+      var tempTData = [];
+      var tempAData = [];     
+      costCleans.reverse().map(item => {
         categories.push(item.comment);
         tempTotal.data.push(item.totalCost);
         tempAverage.data.push(item.averageCost);
       });
       // 倒序排列，符合生活逻辑
-      series.push(tempTotal.reverse());
-      series.push(tempAverage.reverse());
+      series.push(tempTotal);
+      series.push(tempAverage);
       this.initLine(categories, series);
     }
-
-
   },
   initLine: function (categories, series){
     new wxCharts({

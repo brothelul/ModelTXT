@@ -24,7 +24,7 @@
 /** 用户头部信息样式 **/
 .user-header{
   background-color: #fff;
-  margin: 10rpx 20rpx;
+  margin: 10rpx 0;
 }
 .user-header-content{
   font-size: 12px;
@@ -55,10 +55,9 @@
   background-color: #fff;
 }
 .user-cost-title{
-  padding-left: 8px;
   border-bottom: 1px solid #F8F8F8;
   margin: 0px 16px;
-  padding: 8px 0;
+  padding: 8px 0 0 0;
 }
 .user-cost-title-text{
   border: 1px solid;
