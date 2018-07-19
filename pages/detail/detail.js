@@ -13,7 +13,6 @@ Page({
       endTime: 0
     },
     onLoad: function(options){
-      util.setNavigationBarTitle('消费记录');
       util.showLoading();
       const groupId = options.groupId;
       const cleanId = options.cleanId;
@@ -55,10 +54,7 @@ Page({
       });
     },
     loadingMore: function(e){
-      console.log(e)
-      wx.showLoading({
-        title: '加载中',
-      });
+      util.showLoading();
       this.setData({
         currentPage: currentPage+1
       });

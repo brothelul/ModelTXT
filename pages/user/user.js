@@ -51,10 +51,7 @@ Page({
         const url = api.ROOT_URI+"costGroup/"+that.data.groupId+"/delete/"+that.data.userId;
         if (res.confirm){
           util.request(url, {}, 'DELETE').then(function () {
-            wx.showToast({
-              title: '删除成功',
-              icon: 'success'
-            })
+            util.showSuccessToast("删除成功");
             wx.reLaunch({
               url: "/pages/index/index?type=1",
             });

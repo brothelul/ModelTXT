@@ -21,6 +21,7 @@ function request(url, data = {}, method ='GET') {
   if (cookie){
     header.Cookie = cookie;
   }
+  var that = this;
   return new Promise(function (resolve, reject) {
     wx.request({
       url: url,
@@ -48,23 +49,14 @@ function request(url, data = {}, method ='GET') {
           });
         } else{
           wx.hideLoading();
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none',
-            duration: 3000
-          });
+          that.showMessage(res.data.message);
           reject(res.data.message);
         }
       },
       fail: function (err) {
         reject(err);
         wx.hideLoading();
-        wx.showToast({
-          title: err.errMsg,
-          icon: 'none',
-          duration: 3000
-        });
-        console.log("failed request", err);
+        that.showMessage(err.errMsg);
       }
     })
   });
@@ -90,6 +82,15 @@ function setNavigationBarTitle(msg){
   })
 }
 
+function showMessage(msg){
+  msg = msg ? msg : "暂无错误信息"
+  wx.showToast({
+    title: msg,
+    icon: 'none',
+    duration: 3000
+  })
+}
+
 function toIndexPageModal(msg, hasLogin){
   console.log(hasLogin);
   var url = '/pages/index/index';
@@ -112,6 +113,7 @@ module.exports = {
   showSuccessToast,
   showLoading,
   setNavigationBarTitle,
-  toIndexPageModal
+  toIndexPageModal,
+  showMessage
 }
 

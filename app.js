@@ -18,18 +18,14 @@ App({
             success: function (res) {
               if (!res.authSetting['scope.userInfo']) {
                 wx.authorize({
-                  scope: 'scope.userInfo',
+                  scope: "scope.userInfo",
                   success() {
                     // 用户已经同意获取基本信息
                     that.lifeLogin(wxCode, reject, resolv);
                   },
                   fail(e){
                     reject();
-                    wx.showToast({
-                      title: "自动登录失败，可以手动授权登录",
-                      icon: 'none',
-                      duration: 3000
-                    })
+                    util.showMessage('自动登录失败，请授权登');
                   }
                 })
               } else{
@@ -59,7 +55,6 @@ App({
             wx.setStorageSync('cookie', cookie);
             resolv();
           } else {
-            console.log("登录失败")
             reject(res.data.message);
           }
           wx.hideLoading();
@@ -67,10 +62,7 @@ App({
         fail: function (res) {
           reject(res);
           wx.hideLoading();
-          wx.showToast({
-            title: res.errMsg,
-            icon: 'none',
-          })
+          util.showMessage(res.errMsg);
         }
       });
     }

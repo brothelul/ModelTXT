@@ -5,6 +5,7 @@
 const app = getApp()
 const api = require('../../config/api.js');
 const util = require('../../utils/util.js');
+const QRCode = require('../../utils/weapp-qrcode.js');
 
 Page({
   data: {
@@ -13,7 +14,8 @@ Page({
     costGroups: [],
     groupDetail: null,
     selectCostGroup: null,
-    showSmall: true
+    showSmall: true,
+    showQrCodeModal: false
   },
   onLoad: function (options) {
     const defualtCostGroup = wx.getStorageSync("selectCostGroup");
@@ -31,6 +33,7 @@ Page({
       app.login().then(function () {
         util.showLoading();
         that.initUserInfo();
+        util.showLoading();
         that.initGroupInfo();
       });
     }
@@ -67,7 +70,6 @@ Page({
         } else{
           selectCostGroup = temp[0];
         }
-        console.log("temp", selectCostGroup)
         that.setData({
           selectCostGroup: selectCostGroup
         });
@@ -125,15 +127,10 @@ Page({
         hasUserInfo: true
       });
     }, function(){
-      wx.showToast({
-        title: "未授权，登录失败",
-        icon: 'none',
-        duration: 3000
-      })
+      util.showMessage("登录失败");
     });
   },
   loginByButton: function (e) {
-    console
     return new Promise(function (resolve, reject) {
       wx.login({
         success: res => {
@@ -154,12 +151,10 @@ Page({
                 wx.setStorageSync('cookie', cookie);
                 resolve();
               } else {
-                console.log("登录失败")
                 reject(res.data.message);
               }
               wx.hideLoading();
             },fail: function(res){
-              console.log(res);
               wx.hideLoading();
               reject(res);
             }
@@ -260,6 +255,7 @@ Page({
     if (this.data.costGroups.length > 0){
       itemList.push('添加消费记录');
     }
+    itemList.push('扫一扫');
     wx.showActionSheet({
       itemList: itemList,
       success: (res) => {
@@ -276,8 +272,18 @@ Page({
             url: url
           })
         } else if (res.tapIndex == 2) {
-          wx.navigateTo({
-            url: '/pages/feedback/feedback?groupId=9',
+          wx.scanCode({
+            success: function(res){
+              const groupCode = res.result;;
+              console.log(groupCode.length)
+              if (groupCode != null && groupCode.length == 16){
+                wx.navigateTo({
+                  url: '/pages/approval/approval?from=inside&groupCode='+groupCode,
+                })
+              } else{
+                util.showMessage("未识别二维码");
+              }
+            }
           })
         }
       }
@@ -293,4 +299,24 @@ Page({
     wx.setStorageSync("selectCostGroup", selectCostGroup);
     this.initGroupDetail(selectCostGroup.groupNo);
   },
+  openQrCodeModal: function(){
+    this.setData({
+      showQrCodeModal: true
+    });
+    const selectGroupCode = this.data.selectCostGroup.groupCode;
+    var qrcode = new QRCode('canvas', {
+      // usingIn: this,
+      text: selectGroupCode,
+      width: 150,
+      height: 150,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  },
+  closeQrCodeModal: function(){
+    this.setData({
+      showQrCodeModal: false
+    });
+  }
 })

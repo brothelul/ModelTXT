@@ -24,20 +24,21 @@
   <view style="margin:8px 8px;background-color: #fff;" wx:else>
       <view class="user-cost-footer">
         <view class="user-cost-footer-cell">
-          <navigator url="/pages/detail/detail?groupId={{groupId}}&cleanId={{cleanId}}">
-            <view class="iconfont icon-xiangqing:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
+          <navigator url="/pages/detail/detail?groupId={{groupId}}&cleanId={{cleanId}}" style='line-height:1;'>
+            <view class="iconfont icon-detail:before weui-grid__icon" style="font-size: 18px;"></view>
             <view>消费详情</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell-center">
-          <navigator url="/pages/index/index?from=share" open-type="reLaunch">
-              <text class="iconfont icon-home:before weui-grid__icon" style="font-size: 20px;"></text>
+          <navigator url="/pages/index/index?from=share" open-type="reLaunch" style='line-height:1;'>
+              <text class="iconfont icon-home:before weui-grid__icon" style="font-size: 20px;marign-bottom: 4px;"></text>
               <view>回到首页</view>                     
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
             <button size="mini" style="background-color: #fff;" open-type="share">
-              <view class="iconfont icon-share:before" style="font-size: 20px;"></view>
+              <view class="iconfont icon-share:before" style="font-size: 20px;line-height: 1;"></view>
+              <view style="font-size:12px;">分享结算</view>
             </button>
         </view>
       </view>

@@ -14,20 +14,17 @@ Page({
     showPie: false
   },
   onLoad: function (options) {
-    util.setNavigationBarTitle('结算详情');
     const type = options.type;
     const groupId = options.groupId;
     const cleanId = options.cleanId;
     const from = options.from;
-    console.log("groupId", groupId);
-    console.log("cleanId", cleanId);
     util.showLoading();
     if(from){
       var that = this;
       app.login().then(function(){
         that.init(type, groupId, cleanId);
       }, function(){
-        util.toIndexPageModal('获取授权登录失败，去首页授权登录');
+        util.toIndexPageModal('自动授权登录失败，去首页授权登录');
       })
     } else{
       this.init(type, groupId, cleanId);
@@ -47,7 +44,7 @@ Page({
         });
       }
     }, function(res){
-      util.toIndexPageModal(res + '，去首页', true);
+      util.toIndexPageModal(res + '，回到首页', true);
     })
   },
   initData: function(res){

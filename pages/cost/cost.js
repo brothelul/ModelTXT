@@ -9,7 +9,7 @@ Page({
     costDate: util.formatTime(new Date()),
     costGroups: [],
     costCategories: [],
-    selectCategory: 1,
+    selectCategory: null,
     selectCostGroup: null,
     loading: false,
     showTopTip: false,
@@ -32,7 +32,8 @@ Page({
     var that = this;
     util.request(api.CATEGORY).then(function (res) {
       that.setData({
-        costCategories: res.data
+        costCategories: res.data,
+        selectCategory: res.data[0].cateId
       });
     });
   },

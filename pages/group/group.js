@@ -64,7 +64,6 @@ Page({
       loading: false
     });
     const formId = e.detail.formId;
-    console.log("formId", formId);
     util.request(api.CREATE_NOTIFICATION, formId, 'POST');
   }
 })

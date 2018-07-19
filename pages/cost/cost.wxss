@@ -1,5 +1,4 @@
 @import '../group/group.wxss';
-@import '../../font/cost/iconfont.wxss';
 
 /* .wx-select{
   position:relative;

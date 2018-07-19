@@ -11,16 +11,9 @@
                 </view>
             </view>
     </view>
-    <view class="weui-cells__title">你需要发送验证信息，等待管理员通过</view>
-    <view class="weui-cells weui-cells_after-title">
-        <view class="weui-cell weui-cell_input">
-            <view class="weui-cell__bd">
-                <input name="comment" class="weui-input" placeholder="请输入验证信息" />
-            </view>
-        </view>
-    </view>
+    <view class="weui-cells__title">如果你确认加入该账单，那么你将和账单内的成员分摊费用</view>
     <view class="weui-btn-area">
-        <button class="weui-btn" form-type='submit' type="primary">确定</button>
+        <button class="weui-btn" form-type='submit' type="primary">确定加入</button>
     </view>
   </form>
 </view>

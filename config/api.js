@@ -18,5 +18,6 @@ module.exports = {
   DELETE_DETAIL: rootUri + 'costDetail/detail/',
   CLEAN_HISTORY: rootUri + 'costClean/costGroup/',
   UNCLEAN_DETAIL: rootUri +'costClean/unClean/costGroup/',
-  CREATE_NOTIFICATION: rootUri + 'notification/collect/formId'
+  CREATE_NOTIFICATION: rootUri + 'notification/collect/formId',
+  JOIN_COSTGROUP: rootUri +"costGroup/joinByCode/"
 }

@@ -4,7 +4,7 @@
   <view class="user-header">
       <view class="userinfo">
           <view>
-            <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+            <view style="float: left"><image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image></view>
             <view class="userinfo-nickname">
               <button wx:if="{{!hasUserInfo}}"  open-type="getUserInfo" bindgetuserinfo="getUserInfo" size="mini" style="line-height: 1.5; padding: 0 2px;">授权登录</button>
               <view wx:else>{{userInfo.nickName}}</view>
@@ -18,7 +18,7 @@
         </view>
         <view class="header-content-cell-center">
           <view wx:if="{{userInfo.leftCost <= 0}}">收<text class="header-content-cell-money" style="margin-left:4px; color:#1AAD19;">{{-userInfo.leftCost}}</text>元</view>
-          <view wx:else>付<text class="header-content-cell-money" style="margin-left:4px; color:#576b95;">{{userInfo.leftCost}}</text>元</view>
+          <view wx:else>付<text class="header-content-cell-money" style="margin-left:4px; color:#e64340;">{{userInfo.leftCost}}</text>元</view>
           <view>结算应</view>
         </view>
       </view>
@@ -32,10 +32,10 @@
       <view class="user-cost">
         <!-- 头部 -->
         <view class="user-cost-title">
-            <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName" style="width:77%; float: left;margin-top:1px;">
-              <text class="user-cost-title-text">{{selectCostGroup.groupName}} ~</text>
+            <picker bindchange="selectCostGroup" value="{{selectCostGroup}}" range="{{costGroups}}" range-key="groupName" style="float: left;margin-top:1px; margin-left:16px;">
+              <text class="user-cost-title-text">{{selectCostGroup.groupName}} <text class="iconfont icon-zhankai:before"></text></text>
             </picker> 
-            <button size="mini" style="background-color: #fff; height: 30px;line-height: 0.9;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
+            <button size="mini" style="background-color: #fff; height: 30px;line-height: 1; float: right;" id="{{groupDetail.costGroup.groupCode}}" open-type="share">
               <view style="display:inline;">
                 <view>
                   <text class="iconfont icon-share:before" style="font-size: 15px;"></text>
@@ -50,34 +50,38 @@
         <block wx:for="{{groupDetail.costUsers}}" wx:key="userId">
         <view class="user-cost-content">
           <view class="user-cost-content-cell">
-           <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}">
-              <view style="width: 85rpx;">
-                <image class="user-cost-content-cell-img" src="{{item.avatarUrl}}"></image>
-              </view>           
-            </navigator>
-            <view class="user-cost-content-cell-info">
-              <view>{{item.remarkName}}</view>
-              <view style="margin-top: 4px; font-size: 10px;" wx:if="{{item.admin == 'Y'}}">
-                <text class="user-cost-content-cell-info-tag">管理员</text>
+           <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}" style="width:90%; float:left">
+                <view style="width: 85rpx;">
+                  <image class="user-cost-content-cell-img" src="{{item.avatarUrl}}"></image>
+                </view>           
+              <view class="user-cost-content-cell-info">
+                <block wx:if="{{item.admin != 'Y'}}">
+                  <view  style="height:11px;"></view>
+                  <view>{{item.remarkName}}</view>
+                </block>
+                <block wx:else>
+                  <view>{{item.remarkName}}</view>
+                  <view style="margin-top: 4px; font-size: 10px;">
+                    <text class="user-cost-content-cell-info-tag">管理员</text>
+                  </view>
+                </block>
               </view>
-            </view>
-            <view class="user-cost-money" style="margin-left: 20rpx;">
-              <view><text style="font-size: 18px;margin-right: 4px;color: #576b95;">{{item.totalCost}}</text>元</view>
-              <view>累计消费</view>
-            </view>
-            <view class="user-cost-money" wx:if="{{item.leftCost <= 0}}">
-              <view>收<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #1AAD19;">{{-item.leftCost}}</text>元</view>
-              <view>结算应</view>
-            </view>
-            <view class="user-cost-money" wx:else>
-              <view>付<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #e64340;">{{item.leftCost}}</text>元</view>
-              <view>结算应</view>
-            </view>
-            <view style="width: 90rpx;">
-              <navigator url="/pages/user/user?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}&myRole={{groupDetail.myRole}}" style="padding-top: 10px; padding-bottom: 10px;">
-                <text class="iconfont icon-setting:before"></text>
-              </navigator>
-            </view>
+              <view class="user-cost-money" style="margin-left: 20rpx;">
+                <view><text style="font-size: 18px;margin-right: 4px;color: #576b95;">{{item.totalCost}}</text>元</view>
+                <view>累计消费</view>
+              </view>
+              <view class="user-cost-money" wx:if="{{item.leftCost <= 0}}">
+                <view>收<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #1AAD19;">{{-item.leftCost}}</text>元</view>
+                <view>结算应</view>
+              </view>
+              <view class="user-cost-money" wx:else>
+                <view>付<text style="font-size: 18px;margin-right: 4px;margin-left: 4px;color: #e64340;">{{item.leftCost}}</text>元</view>
+                <view>结算应</view>
+              </view>
+            </navigator>
+            <navigator url="/pages/user/user?groupId={{groupDetail.costGroup.groupNo}}&userId={{item.userId}}&myRole={{groupDetail.myRole}}" style="padding-top: 10px; padding-bottom: 10px; width: 10%;float: left;">
+              <text class="iconfont icon-shezhi:before"></text>
+            </navigator>
           </view>
           </view>
         </block>
@@ -85,16 +89,14 @@
       <view class="user-cost-footer">
         <view class="user-cost-footer-cell">
           <navigator url="/pages/detail/detail?groupId={{groupDetail.costGroup.groupNo}}">
-            <view class="iconfont icon-xiangqing:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
+            <view class="iconfont icon-detail:before weui-grid__icon" style="font-size: 18px;marign-bottom: 4px;"></view>
             <view>消费详情</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell-center">
-          <navigator url="/pages/application/application?groupId={{groupDetail.costGroup.groupNo}}&myRole={{groupDetail.myRole}}">
-              <text class="iconfont icon-moban:before weui-grid__icon" style="font-size: 20px;">
-              <text style='font-size: 6px; color: #fff; border: 1px solid #e64340; border-radius: 50%;  background-color:#e64340;' wx:if="{{groupDetail.notApproveCount>0}}">{{groupDetail.notApproveCount}}</text>
-              </text>
-              <view>加入申请</view>
+          <navigator  url="" bindtap="openQrCodeModal">
+              <text class="iconfont icon-erweima:before weui-grid__icon" style="font-size: 20px;"></text>
+              <view>二维码</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
@@ -107,12 +109,16 @@
     </view>
 </view>
 
+  <modal hidden="{{!showQrCodeModal}}" title="扫描二维码加入账单" confirm-text="关闭" cancel-text="退出" bindconfirm="closeQrCodeModal" no-cancel="true">
+    <canvas class='qrCode' canvas-id='canvas' bindlongtap='save' style="margin: 0 auto; width: 150px;"></canvas>
+  </modal>
+
 <view style="height:60px;"></view>
 
 <!-- 底部添加按钮 -->
 
   <view class="user-footer" wx:if="{{hasUserInfo}}">
-    <button type="primary" class="iconfont icon-tianjia:before user-footer-add"  bindtap="openAdd">
+    <button type="primary" class="iconfont icon--jia:before user-footer-add"  bindtap="openAdd">
     </button>
   </view>
 </view>
