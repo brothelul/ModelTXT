@@ -9,7 +9,8 @@
     "pages/approval/approval",
     "pages/detail/detail",
     "pages/settlement/settlement",
-    "pages/settleDetail/settleDetail"
+    "pages/settleDetail/settleDetail",
+    "pages/aboutMe/aboutMe"
   ],
   "window": {
     "backgroundTextStyle": "dark",
