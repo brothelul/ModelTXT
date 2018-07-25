@@ -15,7 +15,10 @@ Page({
     groupDetail: null,
     selectCostGroup: null,
     showSmall: true,
-    showQrCodeModal: false
+    showQrCodeModal: false,
+    hiddenMenu: true,
+    menu: [{ index: -1, name: '关于我们', method: "toAboutMe" },{ index: 0, name: '帮助手册', method: "showHelpDoc" }],
+    hiddenHelpDoc: true
   },
   onLoad: function (options) {
     const defualtCostGroup = wx.getStorageSync("selectCostGroup");
@@ -35,6 +38,10 @@ Page({
         that.initUserInfo();
         util.showLoading();
         that.initGroupInfo();
+      }, function(){
+        that.setData({
+          menu: that.data.menu.reverse()
+        });
       });
     }
   },
@@ -47,7 +54,14 @@ Page({
       that.setData({
         userInfo: res.data,
         hasUserInfo: true,
-      })
+      });
+      var menu = that.data.menu;
+      if(menu.length < 4){
+        menu = menu.concat([{ index: 1, name: '创建新的账单', method: "toCreateCostGroup" }, { index: 2, name: '扫码加入账单', method: "toJoinCostGroup" }]);
+        that.setData({
+          menu: menu
+        });
+      }
     });
   },
   // 初始化所有账单
@@ -75,6 +89,15 @@ Page({
         });
         wx.setStorageSync("selectCostGroup", selectCostGroup);
         that.initGroupDetail(selectCostGroup.groupNo);
+        // 添加菜单 添加新的消费
+        var menu = that.data.menu;
+        if (menu.length < 5){
+          const menuItem = { index: 3, name: "添加消费记录", method: "toCreateCostDetail" };
+          menu.push(menuItem);
+          that.setData({
+            menu: menu.reverse()
+          });
+        }
       } else {
         wx.setStorageSync("selectCostGroup", null);
       }
@@ -248,46 +271,10 @@ Page({
     })
   },
   // 打开添加按钮
-  openAdd: function(e){
-    console.log(e)
-    const selectCostGroup = this.data.selectCostGroup;
-    var itemList = ['创建新的账单'];
-    if (this.data.costGroups.length > 0){
-      itemList.push('添加消费记录');
-    }
-    itemList.push('扫一扫');
-    wx.showActionSheet({
-      itemList: itemList,
-      success: (res) => {
-        if (res.tapIndex == 0) {
-          wx.navigateTo({
-            url: '/pages/group/group',
-          })
-        } else if (res.tapIndex == 1) {
-          var url = "/pages/cost/cost";
-          if (selectCostGroup){
-            url=url.concat("?groupId="+selectCostGroup.groupNo);
-          }
-          wx.navigateTo({
-            url: url
-          })
-        } else if (res.tapIndex == 2) {
-          wx.scanCode({
-            success: function(res){
-              const groupCode = res.result;;
-              console.log(groupCode.length)
-              if (groupCode != null && groupCode.length == 16){
-                wx.navigateTo({
-                  url: '/pages/approval/approval?from=inside&groupCode='+groupCode,
-                })
-              } else{
-                util.showMessage("未识别二维码");
-              }
-            }
-          })
-        }
-      }
-    })
+  openMenu: function(e){
+    this.setData({
+      hiddenMenu: false
+    });
   },
   // 选择默认的账单
   selectCostGroup: function(e){
@@ -317,6 +304,61 @@ Page({
   closeQrCodeModal: function(){
     this.setData({
       showQrCodeModal: false
+    });
+  },
+  // 影藏菜单
+  menuChange: function(e){
+    this.setData({
+      hiddenMenu: true
+    });
+  },
+  toCreateCostGroup: function(){
+    wx.navigateTo({
+      url: '/pages/group/group',
+    });
+    this.menuChange();
+  },
+  toCreateCostDetail: function(){
+    const selectCostGroup = this.data.selectCostGroup;
+    var url = "/pages/cost/cost";
+    if (selectCostGroup) {
+      url = url.concat("?groupId=" + selectCostGroup.groupNo);
+    }
+    wx.navigateTo({
+      url: url
+    });
+    this.menuChange();
+  },
+  toJoinCostGroup: function(){
+    wx.scanCode({
+      success: function (res) {
+        const groupCode = res.result;;
+        console.log(groupCode.length)
+        if (groupCode != null && groupCode.length == 16) {
+          wx.navigateTo({
+            url: '/pages/approval/approval?from=inside&groupCode=' + groupCode,
+          })
+        } else {
+          util.showMessage("未识别二维码");
+        }
+      }
+    });
+    this.menuChange();
+  },
+  showHelpDoc: function(){
+    this.menuChange();
+    this.setData({
+      hiddenHelpDoc: false
+    });
+  },
+  toAboutMe: function(){
+    wx.navigateTo({
+      url: '/pages/aboutMe/aboutMe',
+    })
+  },
+  closeHelpDoc: function(){
+    this.setData({
+      hiddenHelpDoc: true
     });
   }
 })

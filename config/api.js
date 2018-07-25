@@ -1,5 +1,5 @@
-//const rootUri = 'https://www.modutxt.xin/public/api/';
-const rootUri = 'https://192.168.31.213/public/api/';
+const rootUri = 'https://www.modutxt.xin/public/api/';
+//const rootUri = 'https://192.168.31.213/public/api/';
 module.exports = {
   ROOT_URI: rootUri,
   LOGIN: rootUri + 'login',

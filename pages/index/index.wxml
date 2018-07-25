@@ -96,7 +96,7 @@
         <view class="user-cost-footer-cell-center">
           <navigator  url="" bindtap="openQrCodeModal">
               <text class="iconfont icon-erweima:before weui-grid__icon" style="font-size: 20px;"></text>
-              <view>二维码</view>
+              <view>账单码</view>
           </navigator>
         </view>
         <view class="user-cost-footer-cell">
@@ -116,9 +116,32 @@
 <view style="height:60px;"></view>
 
 <!-- 底部添加按钮 -->
-
-  <view class="user-footer" wx:if="{{hasUserInfo}}">
-    <button type="primary" class="iconfont icon--jia:before user-footer-add"  bindtap="openAdd">
+  <view class="user-footer">
+    <button type="primary" class="iconfont icon--jia:before user-footer-add"  bindtap="openMenu">
     </button>
   </view>
+  <!-- 弹出添加菜单 -->
+  <action-sheet hidden="{{hiddenMenu}}" catchchange="menuChange">
+    <block wx:for="{{menu}}" wx:for-item="item" wx:key="id">
+        <action-sheet-item bindtap="{{item.method}}">{{item.name}}</action-sheet-item>
+    </block>
+    <action-sheet-cancel>取消</action-sheet-cancel>
+  </action-sheet>
+  <!-- 弹出使用手册 -->
+  <modal hidden="{{hiddenHelpDoc}}" title="不会玩怎么办" confirm-text="关闭" cancel-text="退出" bindconfirm="closeHelpDoc" no-cancel="true">
+    <swiper indicator-dots="true">
+      <swiper-item>
+        <image class="slide-image" style='width:100%; height: 100%' src='http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="slide-image" style='width:100%; height: 100%' src='http://img03.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="slide-image" style='width:100%; height: 100%' src='http://img04.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
+      </swiper-item>
+      <swiper-item>
+        <image class="slide-image" style='width:100%; height: 100%' src='http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
+      </swiper-item>
+    </swiper>
+  </modal>
 </view>
