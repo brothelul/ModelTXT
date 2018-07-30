@@ -10,19 +10,26 @@ Page({
       cleanId: null,
       userId: null,
       startTime: 0,
-      endTime: 0
+      endTime: 0,
+      maxPageSize: 1,
     },
     onLoad: function(options){
       util.showLoading();
       const groupId = options.groupId;
       const cleanId = options.cleanId;
       const userId = options.userId;
-      console.log("groupId", options.groupId);
-      console.log("cleanId", options.cleanId);
+      if (cleanId){
+        this.setData({
+          cleanId: cleanId
+        });
+      }
+      if (userId){
+        this.setData({
+          userId: userId
+        })
+      }
       this.setData({
         groupId: groupId,
-        cleanId: cleanId,
-        userId: userId
       });
       this.loadDetails();
     },
@@ -45,15 +52,22 @@ Page({
       }
       var that = this;
       util.request(url, data, "POST").then(function (res) {
-        var details = that.data.details;
+        let details = that.data.details;
         details = details.concat(res.data.data);
         that.setData({
           details: details,
-          currentPage: res.data.page
+          currentPage: res.data.page,
+          maxPageSize: res.data.totalPage
         });
       });
     },
     loadingMore: function(e){
+      const currentPage = this.data.currentPage + 1;
+      const maxPageSize = this.data.maxPageSize;
+      if (currentPage > maxPageSize){
+        util.showMessage("没有更多了");
+        return;
+      }
       util.showLoading();
       this.setData({
         currentPage: currentPage+1
@@ -109,5 +123,9 @@ Page({
     this.setData({
       endTime: e.timeStamp
     });
-  }
+  },
+  // 上拉加载
+  // onReachBottom: function(){
+  //   this.loadingMore();
+  // }
 })

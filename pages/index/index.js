@@ -6,7 +6,8 @@ const app = getApp()
 const api = require('../../config/api.js');
 const util = require('../../utils/util.js');
 const QRCode = require('../../utils/weapp-qrcode.js');
-
+const menuCodes = [{ name: '添加消费记录', code: 1 }, { name: '扫码加入账单', code: 2 },
+{ name: '创建新的账单', code: 3 }, { name: '帮助手册', code: 4 }, { name: '关于我们', code: 5 }];
 Page({
   data: {
     userInfo: app.globalData.userInfo,
@@ -15,10 +16,7 @@ Page({
     groupDetail: null,
     selectCostGroup: null,
     showSmall: true,
-    showQrCodeModal: false,
-    hiddenMenu: true,
-    menu: [{ index: -1, name: '关于我们', method: "toAboutMe" },{ index: 0, name: '帮助手册', method: "showHelpDoc" }],
-    hiddenHelpDoc: true
+    showQrCodeModal: false
   },
   onLoad: function (options) {
     const defualtCostGroup = wx.getStorageSync("selectCostGroup");
@@ -38,10 +36,6 @@ Page({
         that.initUserInfo();
         util.showLoading();
         that.initGroupInfo();
-      }, function(){
-        that.setData({
-          menu: that.data.menu.reverse()
-        });
       });
     }
   },
@@ -55,13 +49,6 @@ Page({
         userInfo: res.data,
         hasUserInfo: true,
       });
-      var menu = that.data.menu;
-      if(menu.length < 4){
-        menu = menu.concat([{ index: 1, name: '创建新的账单', method: "toCreateCostGroup" }, { index: 2, name: '扫码加入账单', method: "toJoinCostGroup" }]);
-        that.setData({
-          menu: menu
-        });
-      }
     });
   },
   // 初始化所有账单
@@ -89,15 +76,6 @@ Page({
         });
         wx.setStorageSync("selectCostGroup", selectCostGroup);
         that.initGroupDetail(selectCostGroup.groupNo);
-        // 添加菜单 添加新的消费
-        var menu = that.data.menu;
-        if (menu.length < 5){
-          const menuItem = { index: 3, name: "添加消费记录", method: "toCreateCostDetail" };
-          menu.push(menuItem);
-          that.setData({
-            menu: menu.reverse()
-          });
-        }
       } else {
         wx.setStorageSync("selectCostGroup", null);
       }
@@ -134,7 +112,7 @@ Page({
       }
     } else {
       return {
-        title: userName + '邀请你使用AAB制，让你的生活更便捷',
+        title: userName + '邀请你使用小象账单，让你的生活更便捷。',
         path: 'pages/index/index'
       }
     }
@@ -168,7 +146,6 @@ Page({
               encryptedData: e.detail.encryptedData
             },
             success: function (res) {
-              console.log("OK");
               if (res.statusCode == 200) {
                 var cookie = "JSESSIONID=" + res.data.data;
                 wx.setStorageSync('cookie', cookie);
@@ -191,9 +168,9 @@ Page({
     const selectGroup = this.data.selectCostGroup;
     const groupId = selectGroup.groupNo;
     var that = this;
-    var itemList = ['设置', '退出', '结算', "历史结算记录"];
+    var itemList = ['账单设置', '退出账单', '账单结算', "历史结算记录"];
     if (this.data.groupDetail.myRole == 'admin') {
-      itemList = itemList.concat(['删除']);
+      itemList = itemList.concat(['删除账单']);
     }
     wx.showActionSheet({
       itemList: itemList,
@@ -272,6 +249,23 @@ Page({
   },
   // 打开添加按钮
   openMenu: function(e){
+    const { costGroups, hasUserInfo} = this.data; 
+    var that = this;
+    let menu = [];
+    if (costGroups.length > 0 && hasUserInfo){
+      menu.push('添加消费记录');
+    }
+    if(hasUserInfo){
+      menu = menu.concat(['扫码加入账单', '创建新的账单']);
+    }
+    menu = menu.concat(['帮助手册','关于我们']);
+    wx.showActionSheet({
+      itemList: menu,
+      success: function(res){
+        console.log(res.tapIndex)
+        that.menuToAction(menu[res.tapIndex]);
+      }
+    })
     this.setData({
       hiddenMenu: false
     });
@@ -306,17 +300,10 @@ Page({
       showQrCodeModal: false
     });
   },
-  // 影藏菜单
-  menuChange: function(e){
-    this.setData({
-      hiddenMenu: true
-    });
-  },
   toCreateCostGroup: function(){
     wx.navigateTo({
       url: '/pages/group/group',
     });
-    this.menuChange();
   },
   toCreateCostDetail: function(){
     const selectCostGroup = this.data.selectCostGroup;
@@ -327,7 +314,6 @@ Page({
     wx.navigateTo({
       url: url
     });
-    this.menuChange();
   },
   toJoinCostGroup: function(){
     wx.scanCode({
@@ -343,22 +329,37 @@ Page({
         }
       }
     });
-    this.menuChange();
   },
-  showHelpDoc: function(){
-    this.menuChange();
-    this.setData({
-      hiddenHelpDoc: false
-    });
+  toHelpDoc: function(){
+    wx.navigateTo({
+      url: '/pages/helpDoc/helpDoc',
+    })
   },
   toAboutMe: function(){
     wx.navigateTo({
       url: '/pages/aboutMe/aboutMe',
     })
   },
-  closeHelpDoc: function(){
-    this.setData({
-      hiddenHelpDoc: true
-    });
+  menuToAction: function(menuName){
+    const menu = menuCodes.filter(item => item.name == menuName)[0];
+    switch (menu.code){
+      case 1:
+        this.toCreateCostDetail();
+        break;
+      case 2:
+        this.toJoinCostGroup();
+        break;
+      case 3:
+        this.toCreateCostGroup();
+        break;
+      case 4:
+        this.toHelpDoc();
+        break;
+      case 5:
+        this.toAboutMe();
+        break;
+      default:
+        break;
+    }
   }
 })

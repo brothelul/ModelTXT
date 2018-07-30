@@ -1,15 +1,35 @@
-<view>
-    <view>
-        关于我们
+<view class="page">
+    <view class="page__hd" style="padding: 8px 40px">
+      <view class="page__title">关于我们</view>
+      <view class="page__desc">小象账单是一款记录同居生活消费的软件，适用于广大的祖国花朵。
+        <view>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;</text>如果你是一位喜欢精确计算每天消费的精致猪猪女（男）孩，你可以记录你每天的消费，每月统计消费的分布状况。
+        </view>
+        <view>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;</text>如果你们是一群合租室友，你们可以合理的处理账务关系不必每次都为算账而感到烦恼。
+        </view>
+        <view>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;</text>如果你们是一起出行的旅游拍档，你们可以轻松的记录消费，不必为旅行结束后忘记消费漏算账而忧愁。
+        </view>
+        <view>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;</text>。。。
+        </view>
+      </view>
+      <view class="page__title">
+          联系我们
+      </view>
+      <view class="page__desc">
+         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;</text>如果您有任何感觉用的不爽的地方，请发送邮件至：
+         <view bindtap='copyEmail' style='display: relative;color:#586c94;'><text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>1285823170@qq.com <text class='iconfont icon-fuzhi:before'></text></view>
+         <view>
+                 感谢使用小象账单。
+         </view>
+      </view>
+
     </view>
-    <view>
-        同居生活是一款记录同居生活消费的软件，适用于广大的祖国花朵。
-            如果你是一位喜欢精确计算每天消费的精致猪猪女（男）孩，你可以记录你每天的消费，每月统计消费的分布状况。
-            如果你们是一群合租室友，你们可以合理的处理账务关系不必每次都为算账而感到烦恼。
-            如果你们是一起出行的旅游拍档，你们可以轻松的记录消费，不必为旅行结束后忘记消费漏算账而烦恼。
-            。。。
-        联系我们：
-            如果您有任何感觉用的不爽的地方，请发送邮件至：1285823170@qq.com<text bandtap="copyEmail">点我复制邮箱</text>。
-        感谢使用同居生活。
+    <view class="page__bd page__bd_spacing">
+      <view class="weui-footer weui-footer_fixed-bottom">
+        <view class="weui-footer__text">Copyright © 2018 小象账单</view>
+      </view>
     </view>
 </view>

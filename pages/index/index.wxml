@@ -120,28 +120,4 @@
     <button type="primary" class="iconfont icon--jia:before user-footer-add"  bindtap="openMenu">
     </button>
   </view>
-  <!-- 弹出添加菜单 -->
-  <action-sheet hidden="{{hiddenMenu}}" catchchange="menuChange">
-    <block wx:for="{{menu}}" wx:for-item="item" wx:key="id">
-        <action-sheet-item bindtap="{{item.method}}">{{item.name}}</action-sheet-item>
-    </block>
-    <action-sheet-cancel>取消</action-sheet-cancel>
-  </action-sheet>
-  <!-- 弹出使用手册 -->
-  <modal hidden="{{hiddenHelpDoc}}" title="不会玩怎么办" confirm-text="关闭" cancel-text="退出" bindconfirm="closeHelpDoc" no-cancel="true">
-    <swiper indicator-dots="true">
-      <swiper-item>
-        <image class="slide-image" style='width:100%; height: 100%' src='http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'></image>
-      </swiper-item>
-      <swiper-item>
-        <image class="slide-image" style='width:100%; height: 100%' src='http://img03.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
-      </swiper-item>
-      <swiper-item>
-        <image class="slide-image" style='width:100%; height: 100%' src='http://img04.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
-      </swiper-item>
-      <swiper-item>
-        <image class="slide-image" style='width:100%; height: 100%' src='http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'></image>
-      </swiper-item>
-    </swiper>
-  </modal>
 </view>

@@ -1,0 +1,71 @@
+<view class='page' style='margin: 16px; font-size: 14px; float: left;'>
+  <view>
+    <view class='helpTags'>
+      <view class='helpTag' bindtap="toScrollView" id='1'>未登录/登录失败</view>
+      <view class='helpTag' bindtap="toScrollView" id='2'>如何记账</view>
+      <view class='helpTag' bindtap="toScrollView" id='3'>首页账单的意思</view>
+    </view>
+    <view class='helpTags'>
+      <view class='helpTag' bindtap='toScrollView' id='4'>如何加入账单</view>
+      <view class='helpTag' bindtap='toScrollView' id='5'>账单找不到</view>
+      <view class='helpTag' bindtap='toScrollView' id='6'>设置好友的备注</view>
+    </view>
+    <view class='helpTags'>
+      <view class='helpTag' bindtap='toScrollView' id='7'>如何删除消费记录</view>
+    </view>
+  </view>
+<scroll-view scroll-y="true" scroll-into-view="{{toView}}" croll-with-animation="true" style='height: 500px;'>
+    <view id="toView1" style='height: 500px;'> 
+      <view class="page__title">未登录/登录失败</view>
+      <view class="page__desc">
+        <text>请点击首页的授权登录按钮即可登录，若登录失败请联系我们。</text>
+        <image src="{{rootUrl+'login.png'}}"></image>
+      </view>
+    </view>
+    <view id="toView2" style='height: 500px;'>
+      <view class="page__title">如何记账</view>
+      <view class="page__desc">
+        <view>点击首页的添加按钮，然后选择添加消费记录，输入相关的消费信息即可。</view>
+        <image src="{{rootUrl+'setCostDetail1.png'}}" style='width: 48%;'></image>
+        <image src="{{rootUrl+'setCostDetail3.png'}}" style='width: 48%; margin-left: 8px;'></image>
+      </view>
+    </view>
+    <view id="toView3" style='height: 500px;'>
+      <view class="page__title">首页账单的意思</view>
+      <view class="page__desc">
+        <image src="{{rootUrl+'indexMean.png'}}" style='height: 300px;'></image>
+      </view>
+    </view>
+    <view id="toView4" style='height: 500px;'>
+      <view class="page__title">如何加入账单</view>
+      <view class="page__desc">
+        <view>1.点击好友分享的链接</view>
+        <image src="{{rootUrl+'joinCostGroup1.png'}}" style='height: 260px;'></image>
+        <view>2.扫描账单码</view>
+        <image src="{{rootUrl+'joinCostGroup2.png'}}" style='height: 150px;'></image>
+      </view>
+    </view>
+    <view id="toView5" style='height: 500px;'>
+      <view class="page__title">账单找不到</view>
+      <view class="page__desc">
+        <view>点击账单名称即可选择你想切换的账单</view>
+        <image src='{{rootUrl+"notFoundCostGroup.png"}}' style='height: 380px;'></image>
+      </view>
+    </view>
+    <view id="toView6" style='height: 500px;'>
+      <view class="page__title">设置好友的备注</view>
+      <view class="page__desc">
+        <image src='{{rootUrl+"remarkName1.png"}}' style='height: 260ox;'></image>
+        <image src='{{rootUrl+"remarkName2.png"}}' style='height: 120px;'></image>
+      </view>
+    </view>
+    <view id="toView7" style='height: 500px;'>
+      <view class="page__title">如何删除消费记录</view>
+      <view class="page__desc">
+        <view>长按想要删除的消费记录，然后点击弹出框中的确定即可删除，目前暂时不支持修改操作。</view>
+        <image src='{{rootUrl+"deleteCostDetail.png"}}' style='height: 300px;'></image>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+

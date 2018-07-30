@@ -5,17 +5,17 @@
     "pages/user/user",
     "pages/group/group",
     "pages/cost/cost",
-    "pages/feedback/feedback",
     "pages/approval/approval",
     "pages/detail/detail",
     "pages/settlement/settlement",
     "pages/settleDetail/settleDetail",
-    "pages/aboutMe/aboutMe"
+    "pages/aboutMe/aboutMe",
+    "pages/helpDoc/helpDoc"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "AAB制",
+    "navigationBarTitleText": "小象账单",
     "navigationBarTextStyle": "black"
   }
 }

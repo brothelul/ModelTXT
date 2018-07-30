@@ -1,5 +1,6 @@
-//app.js
 const api = require('config/api.js');
+const util = require('utils/util.js');
+
 App({
   onLaunch: function () {
   },
@@ -16,21 +17,11 @@ App({
           const wxCode = res.code;
           wx.getSetting({
             success: function (res) {
-              if (!res.authSetting['scope.userInfo']) {
-                wx.authorize({
-                  scope: "scope.userInfo",
-                  success() {
-                    // 用户已经同意获取基本信息
-                    that.lifeLogin(wxCode, reject, resolv);
-                  },
-                  fail(e){
-                    reject();
-                    util.showMessage('自动登录失败，请授权登');
-                  }
-                })
-              } else{
+              if (res.authSetting['scope.userInfo']) {
                 that.lifeLogin(wxCode, reject, resolv);
                 wx.hideLoading();
+              } else{
+                util.showMessage('请授权登录');
               }
             }
           })
@@ -38,7 +29,7 @@ App({
       })
     });
 },
-  lifeLogin: function (wxCode, reject, resolv){
+lifeLogin: function (wxCode, reject, resolv){
   wx.getUserInfo({
     success: resInfo => {
       wx.request({

@@ -1,3 +1,0 @@
-<view class="page">
-  <button bindtouchstart="stratRecordVoice" bindtouchend="endRecordVoice">录音</button>
-</view>
